@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Embrace Shopping Cart"
 include(":app")
+include(":domain")
