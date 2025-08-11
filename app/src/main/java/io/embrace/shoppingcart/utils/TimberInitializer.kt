@@ -13,5 +13,3 @@ class TimberInitializer : Initializer<Unit> {
 
     override fun dependencies(): MutableList<Class<out Initializer<*>>> = mutableListOf()
 }
-
-
