@@ -15,6 +15,7 @@ class ProductDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val productId = intent.getStringExtra("productId")
+            ?: intent?.data?.getQueryParameter("id")
         setContent {
             EmbraceShoppingCartTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) {

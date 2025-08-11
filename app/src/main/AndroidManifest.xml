@@ -49,6 +49,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="shopping" android:host="product" />
+                <data android:scheme="https" android:host="shopping.example.com" android:path="/product" />
             </intent-filter>
         </activity>
         <activity
