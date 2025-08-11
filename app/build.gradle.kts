@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
+    // Apply Firebase plugins when google-services.json is present
     kotlin("kapt")
 }
 
@@ -109,4 +110,18 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.startup)
+    // Coil
+    implementation(libs.coil.compose)
+    // Firebase BoM + SDKs
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.perf)
+    // Mixpanel
+    implementation(libs.mixpanel)
+    // Stripe + Google Pay
+    implementation(libs.stripe.android)
+    implementation(libs.play.services.wallet)
+    // Embrace SDK
+    implementation(libs.embrace.android)
 }
