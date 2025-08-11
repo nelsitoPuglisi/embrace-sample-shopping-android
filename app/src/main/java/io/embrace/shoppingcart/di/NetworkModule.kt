@@ -5,8 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.embrace.shoppingcart.network.ApiService
 import io.embrace.shoppingcart.mock.MockApiService
+import io.embrace.shoppingcart.network.ApiService
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -38,10 +38,8 @@ object NetworkModule {
     @Provides
     @Singleton
     @RealApi
-    fun provideRealApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+    fun provideRealApiService(retrofit: Retrofit): ApiService =
+            retrofit.create(ApiService::class.java)
 
-    @Provides
-    @Singleton
-    @MockApi
-    fun provideMockApiService(): ApiService = MockApiService()
+    @Provides @Singleton @MockApi fun provideMockApiService(): ApiService = MockApiService()
 }

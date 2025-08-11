@@ -21,7 +21,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("boolean", "USE_MOCK", "true")
     }
 
     buildTypes {
@@ -40,6 +39,20 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+
+    flavorDimensions += "env"
+    productFlavors {
+        create("mock") {
+            dimension = "env"
+            applicationIdSuffix = ".mock"
+            versionNameSuffix = "-mock"
+            buildConfigField("boolean", "USE_MOCK", "true")
+        }
+        create("prod") {
+            dimension = "env"
+            buildConfigField("boolean", "USE_MOCK", "false")
+        }
     }
     packaging {
         resources {
@@ -62,6 +75,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.navigation.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
@@ -83,6 +97,10 @@ dependencies {
     implementation(libs.moshi.kotlin)
     // Logging
     implementation(libs.timber)
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
