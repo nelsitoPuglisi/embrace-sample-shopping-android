@@ -2,6 +2,7 @@ package io.embrace.shoppingcart.presentation.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.embrace.shoppingcart.domain.model.Product
 import io.embrace.shoppingcart.domain.usecase.GetProductsUseCase
@@ -20,6 +21,7 @@ class SearchViewModel @Inject constructor(
 
     private val _state = MutableStateFlow<List<Product>>(emptyList())
     val state: StateFlow<List<Product>> = _state
+    val liveData = state.asLiveData()
 
     init {
         viewModelScope.launch {
