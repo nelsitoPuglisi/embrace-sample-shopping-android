@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.embrace)
     // Apply Firebase plugins when google-services.json is present
     kotlin("kapt")
 }
@@ -122,6 +123,4 @@ dependencies {
     // Stripe + Google Pay
     implementation(libs.stripe.android)
     implementation(libs.play.services.wallet)
-    // Embrace SDK
-    implementation(libs.embrace.android)
 }
