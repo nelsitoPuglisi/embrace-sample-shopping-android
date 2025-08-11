@@ -20,9 +20,7 @@ fun SearchScreen(viewModel: SearchViewModel = hiltViewModel()) {
     LaunchedEffect(Unit) { viewModel.load() }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        Button(onClick = { viewModel.load() }) {
-            Text("Reload")
-        }
+        Button(onClick = { viewModel.load() }) { Text("Reload from API") }
         LazyColumn {
             items(products) { p ->
                 Text("${'$'}{p.name} - ${'$'}{p.priceCents / 100.0}")

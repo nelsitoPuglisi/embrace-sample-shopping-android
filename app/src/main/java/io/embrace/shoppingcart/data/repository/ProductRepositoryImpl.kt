@@ -4,6 +4,7 @@ import io.embrace.shoppingcart.data.local.ProductDao
 import io.embrace.shoppingcart.data.local.ProductEntity
 import io.embrace.shoppingcart.domain.model.Product
 import io.embrace.shoppingcart.network.ApiService
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
@@ -18,6 +19,9 @@ class ProductRepositoryImpl @Inject constructor(
         productDao.upsertAll(entities)
         return entities.map { Product(it.id, it.name, it.priceCents) }
     }
+
+    override fun observeProducts() =
+        productDao.observeAll().map { list -> list.map { Product(it.id, it.name, it.priceCents) } }
 }
 
 
