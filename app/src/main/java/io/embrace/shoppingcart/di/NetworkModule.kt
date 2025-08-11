@@ -1,11 +1,14 @@
 package io.embrace.shoppingcart.di
 
 import com.squareup.moshi.Moshi
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.embrace.shoppingcart.mock.MockApiService
+import io.embrace.shoppingcart.mock.MockNetworkConfig
 import io.embrace.shoppingcart.network.ApiService
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
@@ -41,5 +44,16 @@ object NetworkModule {
     fun provideRealApiService(retrofit: Retrofit): ApiService =
             retrofit.create(ApiService::class.java)
 
-    @Provides @Singleton @MockApi fun provideMockApiService(): ApiService = MockApiService()
+    @Provides
+    @Singleton
+    fun provideMockNetworkConfig(): MockNetworkConfig = MockNetworkConfig()
+
+    @Provides
+    @Singleton
+    @MockApi
+    fun provideMockApiService(
+        @ApplicationContext context: Context,
+        moshi: Moshi,
+        config: MockNetworkConfig
+    ): ApiService = MockApiService(context, moshi, config)
 }

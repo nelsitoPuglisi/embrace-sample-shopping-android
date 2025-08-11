@@ -1,11 +1,9 @@
-package io.embrace.shoppingcart.domain.model
+package io.embrace.shoppingcart.network
 
-data class Product(
+data class ProductDto(
     val id: String,
     val name: String,
     val priceCents: Int,
     val description: String,
     val imageUrl: String
 )
-
-

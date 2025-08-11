@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "name": "T-Shirt",
+    "priceCents": 1999,
+    "description": "Soft cotton t-shirt",
+    "imageUrl": "tshirt.png"
+  },
+  {
+    "id": "2",
+    "name": "Jeans",
+    "priceCents": 4999,
+    "description": "Classic blue jeans",
+    "imageUrl": "jeans.png"
+  },
+  {
+    "id": "3",
+    "name": "Sneakers",
+    "priceCents": 6999,
+    "description": "Comfortable running sneakers",
+    "imageUrl": "sneakers.png"
+  }
+]
