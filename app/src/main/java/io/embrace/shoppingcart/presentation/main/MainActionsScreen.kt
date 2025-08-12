@@ -17,9 +17,9 @@ import io.embrace.shoppingcart.ui.product.ProductDetailActivity
 import io.embrace.shoppingcart.ui.profile.ProfileActivity
 
 @Composable
-fun MainActionsScreen() {
+fun MainActionsScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = modifier.fillMaxSize()) {
         Button(onClick = {
             context.startActivity(Intent(context, HomeActivity::class.java))
         }) { Text("Go to Home") }
