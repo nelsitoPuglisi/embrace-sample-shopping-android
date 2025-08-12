@@ -1,6 +1,7 @@
 package io.embrace.shoppingcart.di
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import android.content.Context
 import dagger.Module
 import dagger.Provides
@@ -27,7 +28,11 @@ object NetworkModule {
         return OkHttpClient.Builder().addInterceptor(logging).build()
     }
 
-    @Provides @Singleton fun provideMoshi(): Moshi = Moshi.Builder().build()
+    @Provides
+    @Singleton
+    fun provideMoshi(): Moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
 
     @Provides
     @Singleton
