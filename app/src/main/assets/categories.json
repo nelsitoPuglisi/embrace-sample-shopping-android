@@ -1,6 +1,30 @@
 [
-  { "id": "1", "name": "Clothing" },
-  { "id": "2", "name": "Electronics" },
-  { "id": "3", "name": "Home" },
-  { "id": "4", "name": "Sports" }
+  {
+    "id": "1",
+    "name": "Ropa"
+  },
+  {
+    "id": "2",
+    "name": "Electrónicos"
+  },
+  {
+    "id": "3",
+    "name": "Calzado"
+  },
+  {
+    "id": "4",
+    "name": "Accesorios"
+  },
+  {
+    "id": "5",
+    "name": "Libros"
+  },
+  {
+    "id": "6",
+    "name": "Hogar"
+  },
+  {
+    "id": "7",
+    "name": "Deportes"
+  }
 ]

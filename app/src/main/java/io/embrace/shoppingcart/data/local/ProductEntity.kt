@@ -9,7 +9,12 @@ data class ProductEntity(
     val name: String,
     val priceCents: Int,
     val description: String,
-    val imageUrl: String
+    val imageUrl: String,
+    val category: String,
+    val rating: Float,
+    val reviewCount: Int,
+    val inStock: Boolean,
+    val discountPercentage: Int
 )
 
 

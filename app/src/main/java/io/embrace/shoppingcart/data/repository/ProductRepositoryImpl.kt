@@ -23,7 +23,12 @@ class ProductRepositoryImpl @Inject constructor(
                 name = dto.name,
                 priceCents = dto.priceCents,
                 description = dto.description,
-                imageUrl = dto.imageUrl
+                imageUrl = dto.imageUrl,
+                category = dto.category,
+                rating = dto.rating,
+                reviewCount = dto.reviewCount,
+                inStock = dto.inStock,
+                discountPercentage = dto.discountPercentage
             )
         }
         productDao.upsertAll(entities)
@@ -33,7 +38,12 @@ class ProductRepositoryImpl @Inject constructor(
                 name = entity.name,
                 priceCents = entity.priceCents,
                 description = entity.description,
-                imageUrl = entity.imageUrl
+                imageUrl = entity.imageUrl,
+                category = entity.category,
+                rating = entity.rating,
+                reviewCount = entity.reviewCount,
+                inStock = entity.inStock,
+                discountPercentage = entity.discountPercentage
             )
         }
     }
@@ -46,7 +56,12 @@ class ProductRepositoryImpl @Inject constructor(
                     name = entity.name,
                     priceCents = entity.priceCents,
                     description = entity.description,
-                    imageUrl = entity.imageUrl
+                    imageUrl = entity.imageUrl,
+                    category = entity.category,
+                    rating = entity.rating,
+                    reviewCount = entity.reviewCount,
+                    inStock = entity.inStock,
+                    discountPercentage = entity.discountPercentage
                 )
             }
         }

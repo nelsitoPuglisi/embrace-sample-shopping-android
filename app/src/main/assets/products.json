@@ -1,23 +1,146 @@
 [
   {
     "id": "1",
-    "name": "T-Shirt",
+    "name": "Camiseta de Algodón Premium",
     "priceCents": 1999,
-    "description": "Soft cotton t-shirt",
-    "imageUrl": "tshirt.png"
+    "description": "Camiseta suave de algodón 100% con corte moderno y cómodo",
+    "imageUrl": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+    "category": "Ropa",
+    "rating": 4.5,
+    "reviewCount": 128,
+    "inStock": true,
+    "discountPercentage": 0
   },
   {
     "id": "2",
-    "name": "Jeans",
+    "name": "Jeans Clásicos Azules",
     "priceCents": 4999,
-    "description": "Classic blue jeans",
-    "imageUrl": "jeans.png"
+    "description": "Jeans de alta calidad con el corte perfecto para cualquier ocasión",
+    "imageUrl": "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop",
+    "category": "Ropa",
+    "rating": 4.2,
+    "reviewCount": 89,
+    "inStock": true,
+    "discountPercentage": 15
   },
   {
     "id": "3",
-    "name": "Sneakers",
+    "name": "Zapatillas Deportivas",
     "priceCents": 6999,
-    "description": "Comfortable running sneakers",
-    "imageUrl": "sneakers.png"
+    "description": "Zapatillas cómodas para correr con tecnología de amortiguación avanzada",
+    "imageUrl": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
+    "category": "Calzado",
+    "rating": 4.7,
+    "reviewCount": 256,
+    "inStock": true,
+    "discountPercentage": 0
+  },
+  {
+    "id": "4",
+    "name": "Reloj Inteligente",
+    "priceCents": 29999,
+    "description": "Reloj inteligente con monitor de frecuencia cardíaca y GPS integrado",
+    "imageUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
+    "category": "Electrónicos",
+    "rating": 4.8,
+    "reviewCount": 342,
+    "inStock": true,
+    "discountPercentage": 20
+  },
+  {
+    "id": "5",
+    "name": "Auriculares Inalámbricos",
+    "priceCents": 8999,
+    "description": "Auriculares con cancelación de ruido y sonido de alta fidelidad",
+    "imageUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
+    "category": "Electrónicos",
+    "rating": 4.6,
+    "reviewCount": 178,
+    "inStock": false,
+    "discountPercentage": 0
+  },
+  {
+    "id": "6",
+    "name": "Mochila de Viaje",
+    "priceCents": 3999,
+    "description": "Mochila resistente con múltiples compartimentos para viajes",
+    "imageUrl": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop",
+    "category": "Accesorios",
+    "rating": 4.3,
+    "reviewCount": 95,
+    "inStock": true,
+    "discountPercentage": 10
+  },
+  {
+    "id": "7",
+    "name": "Libro de Cocina Gourmet",
+    "priceCents": 2499,
+    "description": "Libro con recetas exclusivas de chefs internacionales",
+    "imageUrl": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=400&fit=crop",
+    "category": "Libros",
+    "rating": 4.4,
+    "reviewCount": 67,
+    "inStock": true,
+    "discountPercentage": 0
+  },
+  {
+    "id": "8",
+    "name": "Cafetera Automática",
+    "priceCents": 15999,
+    "description": "Cafetera programable con molinillo integrado y múltiples opciones",
+    "imageUrl": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
+    "category": "Hogar",
+    "rating": 4.9,
+    "reviewCount": 203,
+    "inStock": true,
+    "discountPercentage": 25
+  },
+  {
+    "id": "9",
+    "name": "Set de Yoga Premium",
+    "priceCents": 5999,
+    "description": "Set completo de yoga con esterilla, bloques y correa",
+    "imageUrl": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop",
+    "category": "Deportes",
+    "rating": 4.1,
+    "reviewCount": 45,
+    "inStock": true,
+    "discountPercentage": 0
+  },
+  {
+    "id": "10",
+    "name": "Cámara Digital Profesional",
+    "priceCents": 89999,
+    "description": "Cámara DSLR con lente intercambiable y 4K video",
+    "imageUrl": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&h=400&fit=crop",
+    "category": "Electrónicos",
+    "rating": 4.7,
+    "reviewCount": 156,
+    "inStock": true,
+    "discountPercentage": 30
+  },
+  {
+    "id": "11",
+    "name": "Vestido de Fiesta",
+    "priceCents": 7999,
+    "description": "Vestido elegante para ocasiones especiales",
+    "imageUrl": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=400&fit=crop",
+    "category": "Ropa",
+    "rating": 4.0,
+    "reviewCount": 78,
+    "inStock": true,
+    "discountPercentage": 0
+  },
+  {
+    "id": "12",
+    "name": "Botas de Montaña",
+    "priceCents": 12999,
+    "description": "Botas resistentes al agua para senderismo y montañismo",
+    "imageUrl": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop",
+    "category": "Calzado",
+    "rating": 4.6,
+    "reviewCount": 112,
+    "inStock": true,
+    "discountPercentage": 15
   }
 ]
