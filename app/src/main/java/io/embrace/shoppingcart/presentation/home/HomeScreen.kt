@@ -18,11 +18,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.embrace.shoppingcart.presentation.components.ProductCard
+import android.content.Intent
+import androidx.compose.ui.platform.LocalContext
+import io.embrace.shoppingcart.ui.product.ProductDetailActivity
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
 
     val pullRefreshState =
             rememberPullRefreshState(refreshing = state.isLoading, onRefresh = { viewModel.load() })
@@ -53,7 +57,10 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                 items(filtered) { product ->
                     ProductCard(
                         product = product,
-                        onProductClick = { /* TODO: Navegar desde Home si aplica */ },
+                        onProductClick = {
+                            val intent = ProductDetailActivity.createIntent(context, product.id)
+                            context.startActivity(intent)
+                        },
                         onAddToCartClick = { viewModel.addToCart(it) },
                         modifier = Modifier.width(240.dp).padding(8.dp)
                     )

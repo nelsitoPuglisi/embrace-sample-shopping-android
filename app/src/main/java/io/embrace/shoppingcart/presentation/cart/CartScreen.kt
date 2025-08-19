@@ -23,14 +23,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.embrace.shoppingcart.presentation.components.MessageSnackbar
+import android.content.Intent
+import io.embrace.shoppingcart.ui.checkout.CheckoutActivity
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CartScreen(viewModel: CartViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
 
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.weight(1f)) {
@@ -87,7 +91,11 @@ fun CartScreen(viewModel: CartViewModel = hiltViewModel()) {
             Text("Items: ${state.itemsCount}")
             Text("Subtotal: $" + String.format("%.2f", state.subtotalCents / 100.0))
             Spacer(Modifier.height(8.dp))
-            Button(onClick = { /* continue to checkout */ }, enabled = state.items.isNotEmpty(), modifier = Modifier.fillMaxWidth()) {
+            Button(onClick = {
+                if (state.items.isNotEmpty()) {
+                    context.startActivity(Intent(context, CheckoutActivity::class.java))
+                }
+            }, enabled = state.items.isNotEmpty(), modifier = Modifier.fillMaxWidth()) {
                 Text("Continue to checkout")
             }
         }
@@ -102,4 +110,3 @@ fun CartScreen(viewModel: CartViewModel = hiltViewModel()) {
         }
     }
 }
-

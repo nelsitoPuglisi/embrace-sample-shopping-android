@@ -9,15 +9,26 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import dagger.hilt.android.AndroidEntryPoint
 import io.embrace.shoppingcart.presentation.home.HomeScreen
 import io.embrace.shoppingcart.ui.theme.EmbraceShoppingCartTheme
+import android.content.Intent
+import io.embrace.shoppingcart.ui.cart.CartActivity
 
 @AndroidEntryPoint
+@OptIn(ExperimentalMaterial3Api::class)
 class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +37,20 @@ class HomeActivity : ComponentActivity() {
             EmbraceShoppingCartTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    contentWindowInsets = WindowInsets.systemBars
+                    contentWindowInsets = WindowInsets.systemBars,
+                    topBar = {
+                        TopAppBar(
+                            title = { Text("Home") },
+                            actions = {
+                                val ctx = LocalContext.current
+                                IconButton(onClick = {
+                                    ctx.startActivity(Intent(ctx, CartActivity::class.java))
+                                }) {
+                                    Icon(Icons.Default.ShoppingCart, contentDescription = "Open cart")
+                                }
+                            }
+                        )
+                    }
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
                         HomeScreen()
@@ -39,11 +63,22 @@ class HomeActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun HomeActivityPreview() {
     EmbraceShoppingCartTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            contentWindowInsets = WindowInsets.systemBars
+            contentWindowInsets = WindowInsets.systemBars,
+            topBar = {
+                TopAppBar(
+                    title = { Text("Home") },
+                    actions = {
+                        IconButton(onClick = { /* preview */ }) {
+                            Icon(Icons.Default.ShoppingCart, contentDescription = "Open cart")
+                        }
+                    }
+                )
+            }
         ) { innerPadding ->
             Box(modifier = Modifier.padding(innerPadding)) {
                 HomeScreen()
@@ -51,5 +86,3 @@ fun HomeActivityPreview() {
         }
     }
 }
-
-
