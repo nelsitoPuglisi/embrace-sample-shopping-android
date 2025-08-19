@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -26,6 +27,7 @@ import io.embrace.shoppingcart.presentation.home.HomeScreen
 import io.embrace.shoppingcart.ui.theme.EmbraceShoppingCartTheme
 import android.content.Intent
 import io.embrace.shoppingcart.ui.cart.CartActivity
+import io.embrace.shoppingcart.ui.profile.ProfileActivity
 
 @AndroidEntryPoint
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,6 +49,11 @@ class HomeActivity : ComponentActivity() {
                                     ctx.startActivity(Intent(ctx, CartActivity::class.java))
                                 }) {
                                     Icon(Icons.Default.ShoppingCart, contentDescription = "Open cart")
+                                }
+                                IconButton(onClick = {
+                                    ctx.startActivity(Intent(ctx, ProfileActivity::class.java))
+                                }) {
+                                    Icon(Icons.Default.Person, contentDescription = "Open profile")
                                 }
                             }
                         )
@@ -75,6 +82,9 @@ fun HomeActivityPreview() {
                     actions = {
                         IconButton(onClick = { /* preview */ }) {
                             Icon(Icons.Default.ShoppingCart, contentDescription = "Open cart")
+                        }
+                        IconButton(onClick = { /* preview */ }) {
+                            Icon(Icons.Default.Person, contentDescription = "Open profile")
                         }
                     }
                 )

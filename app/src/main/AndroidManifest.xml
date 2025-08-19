@@ -79,6 +79,38 @@
                 <data android:scheme="shopping" android:host="profile" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.address.AddressActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="shopping" android:host="addresses" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.payment.PaymentMethodsActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="shopping" android:host="payment-methods" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.orders.OrderHistoryActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="shopping" android:host="orders" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.settings.SettingsActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="shopping" android:host="settings" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
