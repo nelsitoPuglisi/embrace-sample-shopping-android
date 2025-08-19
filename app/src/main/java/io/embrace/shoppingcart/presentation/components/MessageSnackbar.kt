@@ -9,9 +9,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MessageSnackbar(message: String, onDismiss: () -> Unit, modifier: Modifier = Modifier) {
+fun MessageSnackbar(
+        message: String,
+        onDismiss: () -> Unit,
+        modifier: Modifier = Modifier,
+        actionLabel: String = "OK",
+        onAction: (() -> Unit)? = null
+) {
     Snackbar(
             modifier = modifier.padding(16.dp),
-            action = { TextButton(onClick = onDismiss) { Text("OK") } }
+            action = {
+                TextButton(onClick = { onAction?.invoke() ?: onDismiss() }) { Text(actionLabel) }
+            }
     ) { Text(message) }
 }

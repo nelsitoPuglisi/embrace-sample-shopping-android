@@ -15,6 +15,7 @@ import io.embrace.shoppingcart.ui.checkout.CheckoutActivity
 import io.embrace.shoppingcart.ui.home.HomeActivity
 import io.embrace.shoppingcart.ui.product.ProductDetailActivity
 import io.embrace.shoppingcart.ui.profile.ProfileActivity
+import io.embrace.shoppingcart.ui.cart.CartActivity
 
 @Composable
 fun MainActionsScreen(modifier: Modifier = Modifier) {
@@ -33,6 +34,10 @@ fun MainActionsScreen(modifier: Modifier = Modifier) {
         Button(onClick = {
             context.startActivity(Intent(context, CheckoutActivity::class.java))
         }) { Text("Go to Checkout") }
+        Spacer(Modifier.height(12.dp))
+        Button(onClick = {
+            context.startActivity(Intent(context, CartActivity::class.java))
+        }) { Text("Go to Cart") }
         Spacer(Modifier.height(12.dp))
         Button(onClick = {
             context.startActivity(Intent(context, ProfileActivity::class.java))

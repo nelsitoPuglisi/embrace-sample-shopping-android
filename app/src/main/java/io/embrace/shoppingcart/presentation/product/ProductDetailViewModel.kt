@@ -6,6 +6,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.embrace.shoppingcart.domain.model.Product
 import io.embrace.shoppingcart.domain.model.ProductVariant
 import io.embrace.shoppingcart.domain.usecase.GetProductsUseCase
+import io.embrace.shoppingcart.domain.usecase.UpdateCartItemQuantityUseCase
+import io.embrace.shoppingcart.mock.AuthState
+import io.embrace.shoppingcart.mock.MockAuthService
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +18,11 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class ProductDetailViewModel
 @Inject
-constructor(private val getProductsUseCase: GetProductsUseCase) : ViewModel() {
+constructor(
+        private val getProductsUseCase: GetProductsUseCase,
+        private val updateCartItemQuantity: UpdateCartItemQuantityUseCase,
+        private val authService: MockAuthService
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProductDetailUiState())
     val uiState: StateFlow<ProductDetailUiState> = _uiState.asStateFlow()
@@ -65,11 +72,26 @@ constructor(private val getProductsUseCase: GetProductsUseCase) : ViewModel() {
     fun addToCart() {
         val product = _uiState.value.product ?: return
         val quantity = _uiState.value.quantity
-
-        // Aquí normalmente agregarías el producto al carrito
-        // Por ahora solo actualizamos el estado
-        _uiState.value =
-                _uiState.value.copy(cartMessage = "Agregado al carrito: ${product.name} x$quantity")
+        val userId = (authService.state.value as? AuthState.LoggedIn)?.userId
+        viewModelScope.launch {
+            try {
+                // Auto-login de demo si no hay sesión
+                val uid = userId ?: run {
+                    authService.login("demo-user")
+                    "demo-user"
+                }
+                updateCartItemQuantity(uid, product.id, quantity)
+                _uiState.value =
+                        _uiState.value.copy(
+                                cartMessage = "Agregado al carrito: ${product.name} x$quantity"
+                        )
+            } catch (e: Exception) {
+                _uiState.value =
+                        _uiState.value.copy(
+                                cartMessage = "Error al agregar al carrito: ${e.message}"
+                        )
+            }
+        }
     }
 
     fun clearCartMessage() {

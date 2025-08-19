@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.embrace.shoppingcart.data.repository.ProductRepository
 import io.embrace.shoppingcart.data.repository.ProductRepositoryImpl
+import io.embrace.shoppingcart.data.repository.CartRepository
+import io.embrace.shoppingcart.data.repository.CartRepositoryImpl
 import io.embrace.shoppingcart.data.repository.UserRepository
 import io.embrace.shoppingcart.data.repository.UserRepositoryImpl
 import io.embrace.shoppingcart.data.repository.CategoryRepository
@@ -26,6 +28,10 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindCategoryRepository(impl: CategoryRepositoryImpl): CategoryRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCartRepository(impl: CartRepositoryImpl): CartRepository
 }
 
 
