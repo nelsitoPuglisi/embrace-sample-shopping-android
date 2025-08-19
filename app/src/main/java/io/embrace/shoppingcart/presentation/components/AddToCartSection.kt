@@ -47,7 +47,7 @@ fun AddToCartSection(
             }
         }
 
-        // Botón agregar al carrito
+        // Add to cart button
         Button(
                 onClick = onAddToCart,
                 modifier = Modifier.weight(1f),
@@ -59,7 +59,7 @@ fun AddToCartSection(
                     modifier = Modifier.size(20.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Agregar al Carrito")
+            Text("Add to Cart")
         }
     }
 }

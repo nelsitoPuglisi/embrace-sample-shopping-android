@@ -37,12 +37,12 @@ constructor(
                     _uiState.value = _uiState.value.copy(product = product, isLoading = false)
                 } else {
                     _uiState.value =
-                            _uiState.value.copy(error = "Producto no encontrado", isLoading = false)
+                            _uiState.value.copy(error = "Product not found", isLoading = false)
                 }
             } catch (e: Exception) {
                 _uiState.value =
                         _uiState.value.copy(
-                                error = "Error al cargar el producto: ${e.message}",
+                                error = "Failed to load product: ${e.message}",
                                 isLoading = false
                         )
             }
@@ -83,12 +83,12 @@ constructor(
                 updateCartItemQuantity(uid, product.id, quantity)
                 _uiState.value =
                         _uiState.value.copy(
-                                cartMessage = "Agregado al carrito: ${product.name} x$quantity"
+                                cartMessage = "Added to cart: ${product.name} x$quantity"
                         )
             } catch (e: Exception) {
                 _uiState.value =
                         _uiState.value.copy(
-                                cartMessage = "Error al agregar al carrito: ${e.message}"
+                                cartMessage = "Failed to add to cart: ${e.message}"
                         )
             }
         }
@@ -100,8 +100,8 @@ constructor(
 
     fun shareProduct() {
         val product = _uiState.value.product ?: return
-        // Aquí implementarías la funcionalidad de compartir
-        _uiState.value = _uiState.value.copy(shareMessage = "¡Mira este producto: ${product.name}!")
+        // Share functionality placeholder
+        _uiState.value = _uiState.value.copy(shareMessage = "Check out this product: ${product.name}!")
     }
 
     fun clearShareMessage() {

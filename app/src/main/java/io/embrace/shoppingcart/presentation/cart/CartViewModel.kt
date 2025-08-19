@@ -84,7 +84,7 @@ class CartViewModel @Inject constructor(
             val removedQty = _state.value.items.firstOrNull { it.product.id == productId }?.quantity ?: 0
             removeItem(userId, productId)
             _state.update { it.copy(
-                snackbarMessage = "Artículo eliminado",
+                snackbarMessage = "Item removed",
                 lastRemovedProductId = productId,
                 lastRemovedQuantity = removedQty
             ) }
@@ -117,5 +117,4 @@ class CartViewModel @Inject constructor(
         }
     }
 }
-
 

@@ -52,7 +52,7 @@ fun ProductVariantsSection(
     Column(modifier = modifier) {
         if (sizes.isNotEmpty()) {
             VariantSelector(
-                    title = "Tamaño",
+                    title = "Size",
                     options = sizes,
                     selectedOption = selectedVariant.size,
                     onOptionSelected = onSizeSelected

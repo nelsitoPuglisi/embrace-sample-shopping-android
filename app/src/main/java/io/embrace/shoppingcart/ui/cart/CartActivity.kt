@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,11 +26,12 @@ class CartActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     contentWindowInsets = WindowInsets.systemBars
                 ) { innerPadding ->
-                    CartScreen()
+                    Box(modifier = Modifier.padding(innerPadding)) {
+                        CartScreen()
+                    }
                 }
             }
         }
     }
 }
-
 

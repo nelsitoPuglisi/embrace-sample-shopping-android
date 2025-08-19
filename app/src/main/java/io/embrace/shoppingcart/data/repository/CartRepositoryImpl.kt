@@ -23,8 +23,12 @@ constructor(
             productDao.observeAll()
         ) { cartEntities, productEntities ->
             val productMap = productEntities.associateBy { it.id }
-            cartEntities.mapNotNull { entity ->
-                val p = productMap[entity.productId] ?: return@mapNotNull null
+            val quantitiesByProduct = cartEntities
+                .groupBy { it.productId }
+                .mapValues { entry -> entry.value.sumOf { it.quantity } }
+
+            quantitiesByProduct.mapNotNull { (productId, qty) ->
+                val p = productMap[productId] ?: return@mapNotNull null
                 val product = Product(
                     id = p.id,
                     name = p.name,
@@ -37,7 +41,7 @@ constructor(
                     inStock = p.inStock,
                     discountPercentage = p.discountPercentage
                 )
-                CartLineItem(product = product, quantity = entity.quantity)
+                CartLineItem(product = product, quantity = qty)
             }
         }
     }
@@ -61,5 +65,4 @@ constructor(
         cartItemDao.delete(userId, productId)
     }
 }
-
 

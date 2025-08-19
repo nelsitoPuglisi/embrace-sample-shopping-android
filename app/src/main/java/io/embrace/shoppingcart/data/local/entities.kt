@@ -1,6 +1,7 @@
 package io.embrace.shoppingcart.data.local
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "users")
@@ -27,7 +28,10 @@ data class PaymentMethodEntity(
         val expiryYear: Int
 )
 
-@Entity(tableName = "cart_items")
+@Entity(
+    tableName = "cart_items",
+    indices = [Index(value = ["userId", "productId"], unique = true)]
+)
 data class CartItemEntity(
         @PrimaryKey(autoGenerate = true) val rowId: Long = 0,
         val userId: String,

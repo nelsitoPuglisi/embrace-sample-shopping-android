@@ -57,15 +57,15 @@ fun ProductDetailScreen(
     Scaffold(
             topBar = {
                 TopAppBar(
-                        title = { Text("Detalle del Producto") },
+                        title = { Text("Product Details") },
                         navigationIcon = {
                                                 IconButton(onClick = onBackPressed) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                         },
                         actions = {
                             IconButton(onClick = { viewModel.shareProduct() }) {
-                                Icon(Icons.Default.Share, contentDescription = "Compartir")
+                                Icon(Icons.Default.Share, contentDescription = "Share")
                             }
                         }
                 )
@@ -135,16 +135,16 @@ fun ProductDetailScreen(
                                 modifier = Modifier.size(20.dp)
                         )
                         Text(
-                                text = "${product.rating} (${product.reviewCount} reseñas)",
+                                text = "${product.rating} (${product.reviewCount} reviews)",
                                 style = MaterialTheme.typography.bodyMedium
                         )
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Descripción
+                    // Description
                     Text(
-                            text = "Descripción",
+                            text = "Description",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                     )
@@ -166,7 +166,7 @@ fun ProductDetailScreen(
                             onColorSelected = { viewModel.selectColor(it) }
                     )
 
-                    // Estado de stock
+                    // Stock status
                     if (!product.inStock) {
                         Card(
                                 modifier = Modifier.fillMaxWidth(),
@@ -187,7 +187,7 @@ fun ProductDetailScreen(
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                        text = "Producto agotado",
+                                        text = "Out of stock",
                                         color = MaterialTheme.colorScheme.error
                                 )
                             }

@@ -25,7 +25,7 @@ fun LoadingScreen(
             CircularProgressIndicator()
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Cargando productos...",
+                text = "Loading products...",
                 style = MaterialTheme.typography.bodyLarge
             )
         }
@@ -67,7 +67,7 @@ fun ErrorScreen(
             )
             Spacer(modifier = Modifier.height(24.dp))
             Button(onClick = onRetry) {
-                Text("Reintentar")
+                Text("Retry")
             }
         }
     }
@@ -75,7 +75,7 @@ fun ErrorScreen(
 
 @Composable
 fun EmptyState(
-    message: String = "No se encontraron productos",
+    message: String = "No products found",
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -121,7 +121,7 @@ fun LoadingMoreIndicator(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Cargando más productos...",
+                text = "Loading more products...",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -138,7 +138,7 @@ fun EndOfListIndicator(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "No hay más productos",
+            text = "No more products",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(16.dp)

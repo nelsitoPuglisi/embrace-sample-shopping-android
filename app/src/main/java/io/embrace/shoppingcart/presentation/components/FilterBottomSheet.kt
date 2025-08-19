@@ -45,12 +45,12 @@ fun FilterBottomSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Filtros",
+                    text = "Filters",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold
                 )
                 IconButton(onClick = onDismiss) {
-                    Icon(Icons.Default.Clear, contentDescription = "Cerrar")
+                    Icon(Icons.Default.Clear, contentDescription = "Close")
                 }
             }
             
@@ -58,7 +58,7 @@ fun FilterBottomSheet(
             
             // Ordenamiento
             Text(
-                text = "Ordenar por",
+                text = "Sort by",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
@@ -80,9 +80,9 @@ fun FilterBottomSheet(
             
             Spacer(modifier = Modifier.height(24.dp))
             
-            // Categorías
+            // Categories
             Text(
-                text = "Categorías",
+                text = "Categories",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
@@ -97,7 +97,7 @@ fun FilterBottomSheet(
                         onClick = {
                             localFilters = localFilters.copy(selectedCategory = null)
                         },
-                        label = { Text("Todas") }
+                        label = { Text("All") }
                     )
                 }
                 items(categories) { category ->
@@ -113,9 +113,9 @@ fun FilterBottomSheet(
             
             Spacer(modifier = Modifier.height(24.dp))
             
-            // Rango de precios
+            // Price range
             Text(
-                text = "Rango de precios",
+                text = "Price range",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
@@ -131,7 +131,7 @@ fun FilterBottomSheet(
                         val minPrice = value.toIntOrNull()
                         localFilters = localFilters.copy(minPrice = minPrice)
                     },
-                    label = { Text("Precio mínimo") },
+                    label = { Text("Min price") },
                     modifier = Modifier.weight(1f),
                     singleLine = true
                 )
@@ -141,7 +141,7 @@ fun FilterBottomSheet(
                         val maxPrice = value.toIntOrNull()
                         localFilters = localFilters.copy(maxPrice = maxPrice)
                     },
-                    label = { Text("Precio máximo") },
+                    label = { Text("Max price") },
                     modifier = Modifier.weight(1f),
                     singleLine = true
                 )
@@ -149,9 +149,9 @@ fun FilterBottomSheet(
             
             Spacer(modifier = Modifier.height(24.dp))
             
-            // Filtros adicionales
+            // Additional filters
             Text(
-                text = "Filtros adicionales",
+                text = "Additional filters",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
@@ -168,16 +168,16 @@ fun FilterBottomSheet(
                     }
                 )
                 Text(
-                    text = "Solo productos en stock",
+                    text = "In-stock only",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
             
             Spacer(modifier = Modifier.height(8.dp))
             
-            // Rating mínimo
+            // Minimum rating
             Text(
-                text = "Rating mínimo: ${localFilters.minRating}",
+                text = "Minimum rating: ${localFilters.minRating}",
                 style = MaterialTheme.typography.bodyMedium
             )
             Slider(
@@ -191,7 +191,7 @@ fun FilterBottomSheet(
             
             Spacer(modifier = Modifier.height(24.dp))
             
-            // Botones de acción
+            // Action buttons
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -202,7 +202,7 @@ fun FilterBottomSheet(
                     },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("Limpiar filtros")
+                    Text("Clear filters")
                 }
                 Button(
                     onClick = {
@@ -211,7 +211,7 @@ fun FilterBottomSheet(
                     },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("Aplicar filtros")
+                    Text("Apply filters")
                 }
             }
             
@@ -236,7 +236,7 @@ fun FilterButton(
             modifier = Modifier.size(18.dp)
         )
         Spacer(modifier = Modifier.width(4.dp))
-        Text("Filtros")
+        Text("Filters")
         if (hasActiveFilters) {
             Spacer(modifier = Modifier.width(4.dp))
             Surface(

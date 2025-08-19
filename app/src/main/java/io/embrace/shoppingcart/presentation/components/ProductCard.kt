@@ -43,7 +43,7 @@ fun ProductCard(
                         contentScale = ContentScale.Crop
                 )
 
-                // Botón agregar al carrito
+                // Add to cart button
                 IconButton(
                         onClick = { onAddToCartClick(product) },
                         modifier =
@@ -59,7 +59,7 @@ fun ProductCard(
                 ) {
                     Icon(
                             imageVector = Icons.Default.ShoppingCart,
-                            contentDescription = "Agregar al carrito",
+                            contentDescription = "Add to cart",
                             tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
@@ -81,7 +81,7 @@ fun ProductCard(
                     }
                 }
 
-                // Badge de agotado
+                // Out of stock badge
                 if (!product.inStock) {
                     Surface(
                             modifier = Modifier.align(Alignment.Center),
@@ -89,7 +89,7 @@ fun ProductCard(
                             shape = RoundedCornerShape(4.dp)
                     ) {
                         Text(
-                                text = "Agotado",
+                                text = "Out of stock",
                                 color = Color.White,
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,

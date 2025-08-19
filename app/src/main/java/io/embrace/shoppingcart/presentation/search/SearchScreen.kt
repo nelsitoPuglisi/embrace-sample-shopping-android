@@ -26,10 +26,10 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = hilt
     Scaffold(
             topBar = {
                 TopAppBar(
-                        title = { Text("Catálogo de Productos") },
+                        title = { Text("Product Catalog") },
                         actions = {
                             IconButton(onClick = { viewModel.load() }) {
-                                Icon(Icons.Default.Search, contentDescription = "Buscar")
+                                Icon(Icons.Default.Search, contentDescription = "Search")
                             }
                         }
                 )

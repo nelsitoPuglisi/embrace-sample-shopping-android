@@ -84,23 +84,22 @@ fun CartScreen(viewModel: CartViewModel = hiltViewModel()) {
         }
 
         Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-            Text("Artículos: ${state.itemsCount}")
+            Text("Items: ${state.itemsCount}")
             Text("Subtotal: $" + String.format("%.2f", state.subtotalCents / 100.0))
             Spacer(Modifier.height(8.dp))
-            Button(onClick = { /* continuar a checkout */ }, enabled = state.items.isNotEmpty(), modifier = Modifier.fillMaxWidth()) {
-                Text("Continuar al pago")
+            Button(onClick = { /* continue to checkout */ }, enabled = state.items.isNotEmpty(), modifier = Modifier.fillMaxWidth()) {
+                Text("Continue to checkout")
             }
         }
 
         state.snackbarMessage?.let { msg ->
             MessageSnackbar(
                 message = msg,
-                actionLabel = "Deshacer",
+                actionLabel = "Undo",
                 onAction = { viewModel.onUndoRemove() },
                 onDismiss = { viewModel.onSnackbarDismiss() }
             )
         }
     }
 }
-
 
