@@ -26,7 +26,7 @@ constructor(
                             name = dto.name,
                             priceCents = dto.priceCents,
                             description = dto.description,
-                            imageUrl = dto.imageUrl ?: "",
+                            imageUrl = dto.imageUrl ?: dto.imageUrls?.firstOrNull() ?: "",
                             category = dto.category,
                             rating = dto.rating,
                             reviewCount = dto.reviewCount,
