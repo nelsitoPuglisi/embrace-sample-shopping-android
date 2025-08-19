@@ -13,6 +13,7 @@
 *.jks
 *.apk
 *.aab
+*.log
 *~
 .classpath
 .project

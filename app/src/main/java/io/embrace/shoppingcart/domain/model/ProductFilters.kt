@@ -9,3 +9,4 @@ data class ProductFilters(
     val minRating: Float = 0f,
     val sortOption: SortOption = SortOption.POPULAR
 )
+

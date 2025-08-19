@@ -1,58 +1,47 @@
 package io.embrace.shoppingcart.ui.product
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.runtime.Composable
 import dagger.hilt.android.AndroidEntryPoint
+import io.embrace.shoppingcart.presentation.product.ProductDetailScreen
 import io.embrace.shoppingcart.ui.theme.EmbraceShoppingCartTheme
 
 @AndroidEntryPoint
 class ProductDetailActivity : ComponentActivity() {
+
+    companion object {
+        private const val EXTRA_PRODUCT_ID = "extra_product_id"
+
+        fun createIntent(context: Context, productId: String): Intent {
+            return Intent(context, ProductDetailActivity::class.java).apply {
+                putExtra(EXTRA_PRODUCT_ID, productId)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val productId = intent.getStringExtra("productId")
-            ?: intent?.data?.getQueryParameter("id")
         enableEdgeToEdge()
+
+        val productId = intent.getStringExtra(EXTRA_PRODUCT_ID) ?: ""
+
         setContent {
             EmbraceShoppingCartTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    contentWindowInsets = WindowInsets.systemBars
-                ) { innerPadding ->
-                    Text(
-                        text = "Product detail: ${'$'}productId",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                ) { 
+                    ProductDetailScreen(productId = productId, onBackPressed = { finish() }) 
                 }
             }
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun ProductDetailActivityPreview() {
-    EmbraceShoppingCartTheme {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            contentWindowInsets = WindowInsets.systemBars
-        ) { innerPadding ->
-            Text(
-                text = "Product detail: 123",
-                modifier = Modifier.padding(innerPadding)
-            )
-        }
-    }
-}
-
-

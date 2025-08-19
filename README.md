@@ -154,3 +154,4 @@ Los archivos `products.json` y `categories.json` contienen datos de ejemplo con:
 ## 📄 Licencia
 
 Este proyecto es parte de la muestra de implementación de Jetpack Compose para aplicaciones de comercio electrónico.
+

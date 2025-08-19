@@ -3,49 +3,125 @@
     "id": "1",
     "name": "Camiseta de Algodón Premium",
     "priceCents": 1999,
-    "description": "Camiseta suave de algodón 100% con corte moderno y cómodo",
-    "imageUrl": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+    "description": "Camiseta suave de algodón 100% con corte moderno y cómodo. Perfecta para uso diario, esta camiseta ofrece máxima comodidad y estilo. Fabricada con algodón de alta calidad que respira y se adapta perfectamente al cuerpo.",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=400&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=400&h=400&fit=crop"
+    ],
     "category": "Ropa",
     "rating": 4.5,
     "reviewCount": 128,
     "inStock": true,
-    "discountPercentage": 0
+    "discountPercentage": 0,
+    "variants": {
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "colors": [
+        "Blanco",
+        "Negro",
+        "Azul",
+        "Gris"
+      ]
+    }
   },
   {
     "id": "2",
     "name": "Jeans Clásicos Azules",
     "priceCents": 4999,
-    "description": "Jeans de alta calidad con el corte perfecto para cualquier ocasión",
-    "imageUrl": "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop",
+    "description": "Jeans de alta calidad con el corte perfecto para cualquier ocasión. Estos jeans combinan estilo clásico con comodidad moderna, perfectos para el uso diario o ocasiones especiales.",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400&h=400&fit=crop"
+    ],
     "category": "Ropa",
     "rating": 4.2,
     "reviewCount": 89,
     "inStock": true,
-    "discountPercentage": 15
+    "discountPercentage": 15,
+    "variants": {
+      "sizes": [
+        "28",
+        "30",
+        "32",
+        "34",
+        "36",
+        "38"
+      ],
+      "colors": [
+        "Azul Clásico",
+        "Azul Oscuro",
+        "Negro"
+      ]
+    }
   },
   {
     "id": "3",
     "name": "Zapatillas Deportivas",
     "priceCents": 6999,
-    "description": "Zapatillas cómodas para correr con tecnología de amortiguación avanzada",
-    "imageUrl": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
+    "description": "Zapatillas cómodas para correr con tecnología de amortiguación avanzada. Diseñadas para máximo rendimiento y comodidad durante tus entrenamientos y carreras.",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&h=400&fit=crop"
+    ],
     "category": "Calzado",
     "rating": 4.7,
     "reviewCount": 256,
     "inStock": true,
-    "discountPercentage": 0
+    "discountPercentage": 0,
+    "variants": {
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+      ],
+      "colors": [
+        "Blanco",
+        "Negro",
+        "Azul",
+        "Rojo"
+      ]
+    }
   },
   {
     "id": "4",
     "name": "Reloj Inteligente",
     "priceCents": 29999,
-    "description": "Reloj inteligente con monitor de frecuencia cardíaca y GPS integrado",
-    "imageUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
+    "description": "Reloj inteligente con monitor de frecuencia cardíaca y GPS integrado. Perfecto para monitorear tu salud y actividad física con precisión profesional.",
+    "imageUrls": [
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&h=400&fit=crop"
+    ],
     "category": "Electrónicos",
     "rating": 4.8,
     "reviewCount": 342,
     "inStock": true,
-    "discountPercentage": 20
+    "discountPercentage": 20,
+    "variants": {
+      "sizes": [
+        "38mm",
+        "42mm",
+        "45mm"
+      ],
+      "colors": [
+        "Negro",
+        "Plateado",
+        "Dorado"
+      ]
+    }
   },
   {
     "id": "5",

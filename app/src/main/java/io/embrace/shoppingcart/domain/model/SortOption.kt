@@ -9,3 +9,4 @@ enum class SortOption(val displayName: String) {
     NEWEST("Más Recientes"),
     POPULAR("Más Populares")
 }
+
