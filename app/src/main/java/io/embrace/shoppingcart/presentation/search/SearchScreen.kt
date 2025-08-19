@@ -50,7 +50,7 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = hilt
                                     Routes.ProductDetail.replace("{productId}", product.id)
                             )
                         },
-                        onFavoriteClick = { /* TODO: Implementar favoritos */},
+                        onAddToCartClick = { },
                         modifier = Modifier.fillMaxWidth()
                 )
             }
