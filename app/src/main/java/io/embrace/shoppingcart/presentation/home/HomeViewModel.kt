@@ -10,6 +10,9 @@ import io.embrace.shoppingcart.domain.model.SortOption
 import io.embrace.shoppingcart.domain.usecase.FilterAndSortProductsUseCase
 import io.embrace.shoppingcart.domain.usecase.GetCategoriesUseCase
 import io.embrace.shoppingcart.domain.usecase.GetProductsUseCase
+import io.embrace.shoppingcart.domain.usecase.UpdateCartItemQuantityUseCase
+import io.embrace.shoppingcart.mock.AuthState
+import io.embrace.shoppingcart.mock.MockAuthService
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +24,9 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getProducts: GetProductsUseCase,
     private val getCategories: GetCategoriesUseCase,
-    private val filterAndSortProducts: FilterAndSortProductsUseCase
+    private val filterAndSortProducts: FilterAndSortProductsUseCase,
+    private val updateCartItemQuantity: UpdateCartItemQuantityUseCase,
+    private val authService: MockAuthService
 ) : ViewModel() {
 
     data class UiState(
@@ -194,6 +199,20 @@ class HomeViewModel @Inject constructor(
         val filteredProducts = filterAndSortProducts(_state.value.products, _state.value.filters)
         _state.update { currentState ->
             currentState.copy(filteredProducts = filteredProducts)
+        }
+    }
+
+    fun addToCart(product: Product) {
+        viewModelScope.launch {
+            val userId = (authService.state.value as? AuthState.LoggedIn)?.userId ?: run {
+                authService.login("demo-user")
+                "demo-user"
+            }
+            try {
+                updateCartItemQuantity(userId, product.id, 1)
+            } catch (e: Exception) {
+                _state.update { it.copy(error = e.message) }
+            }
         }
     }
 

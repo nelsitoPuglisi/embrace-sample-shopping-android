@@ -54,7 +54,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                     ProductCard(
                         product = product,
                         onProductClick = { /* TODO: Navegar desde Home si aplica */ },
-                        onFavoriteClick = { /* TODO */ },
+                        onAddToCartClick = { viewModel.addToCart(it) },
                         modifier = Modifier.width(240.dp).padding(8.dp)
                     )
                 }

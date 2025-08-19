@@ -5,8 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -26,8 +25,7 @@ import io.embrace.shoppingcart.domain.model.Product
 fun ProductCard(
         product: Product,
         onProductClick: (Product) -> Unit,
-        onFavoriteClick: (Product) -> Unit,
-        isFavorite: Boolean = false,
+        onAddToCartClick: (Product) -> Unit,
         modifier: Modifier = Modifier
 ) {
     Card(
@@ -45,9 +43,9 @@ fun ProductCard(
                         contentScale = ContentScale.Crop
                 )
 
-                // Botón de favorito
+                // Botón agregar al carrito
                 IconButton(
-                        onClick = { onFavoriteClick(product) },
+                        onClick = { onAddToCartClick(product) },
                         modifier =
                                 Modifier.align(Alignment.TopEnd)
                                         .padding(8.dp)
@@ -60,15 +58,9 @@ fun ProductCard(
                                         )
                 ) {
                     Icon(
-                            imageVector =
-                                    if (isFavorite) Icons.Default.Favorite
-                                    else Icons.Default.FavoriteBorder,
-                            contentDescription =
-                                    if (isFavorite) "Quitar de favoritos"
-                                    else "Agregar a favoritos",
-                            tint =
-                                    if (isFavorite) Color.Red
-                                    else MaterialTheme.colorScheme.onSurface
+                            imageVector = Icons.Default.ShoppingCart,
+                            contentDescription = "Agregar al carrito",
+                            tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
