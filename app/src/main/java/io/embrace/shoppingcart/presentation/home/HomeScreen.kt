@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.embrace.shoppingcart.presentation.components.ProductCard
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -50,10 +51,12 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
             LazyRow(modifier = Modifier.fillMaxWidth()) {
                 items(filtered) { product ->
-                    Column(modifier = Modifier.padding(8.dp)) {
-                        Text(product.name)
-                        Text("$${product.priceCents / 100.0}")
-                    }
+                    ProductCard(
+                        product = product,
+                        onProductClick = { /* TODO: Navegar desde Home si aplica */ },
+                        onFavoriteClick = { /* TODO */ },
+                        modifier = Modifier.width(240.dp).padding(8.dp)
+                    )
                 }
             }
         }
