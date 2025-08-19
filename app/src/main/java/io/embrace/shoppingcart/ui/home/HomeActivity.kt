@@ -28,12 +28,23 @@ import io.embrace.shoppingcart.ui.theme.EmbraceShoppingCartTheme
 import android.content.Intent
 import io.embrace.shoppingcart.ui.cart.CartActivity
 import io.embrace.shoppingcart.ui.profile.ProfileActivity
+import io.embrace.shoppingcart.ui.auth.AuthActivity
+import io.embrace.shoppingcart.mock.MockAuthService
+import io.embrace.shoppingcart.mock.AuthState
+import javax.inject.Inject
 
 @AndroidEntryPoint
 @OptIn(ExperimentalMaterial3Api::class)
 class HomeActivity : ComponentActivity() {
+    @Inject lateinit var authService: MockAuthService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // If not logged in, navigate to Auth and finish
+        if (authService.state.value !is AuthState.LoggedIn) {
+            startActivity(Intent(this, AuthActivity::class.java))
+            finish()
+            return
+        }
         enableEdgeToEdge()
         setContent {
             EmbraceShoppingCartTheme {
