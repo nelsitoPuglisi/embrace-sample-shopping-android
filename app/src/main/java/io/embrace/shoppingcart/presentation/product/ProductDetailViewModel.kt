@@ -7,6 +7,7 @@ import io.embrace.shoppingcart.domain.model.Product
 import io.embrace.shoppingcart.domain.model.ProductVariant
 import io.embrace.shoppingcart.domain.usecase.GetProductsUseCase
 import io.embrace.shoppingcart.domain.usecase.UpdateCartItemQuantityUseCase
+import io.embrace.shoppingcart.network.AddToCartNetworkSimulator
 import io.embrace.shoppingcart.mock.AuthState
 import io.embrace.shoppingcart.mock.MockAuthService
 import javax.inject.Inject
@@ -21,7 +22,8 @@ class ProductDetailViewModel
 constructor(
         private val getProductsUseCase: GetProductsUseCase,
         private val updateCartItemQuantity: UpdateCartItemQuantityUseCase,
-        private val authService: MockAuthService
+        private val authService: MockAuthService,
+        private val addToCartNetworkSimulator: AddToCartNetworkSimulator
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProductDetailUiState())
@@ -75,6 +77,9 @@ constructor(
         val userId = (authService.state.value as? AuthState.LoggedIn)?.userId
         viewModelScope.launch {
             try {
+                _uiState.value = _uiState.value.copy(isAddingToCart = true)
+                // Simulate a network call for "add to cart" that Embrace can monitor.
+                addToCartNetworkSimulator.simulate(product.id, quantity)
                 // Auto-login de demo si no hay sesión
                 val uid = userId ?: run {
                     authService.login("demo-user")
@@ -83,11 +88,13 @@ constructor(
                 updateCartItemQuantity(uid, product.id, quantity)
                 _uiState.value =
                         _uiState.value.copy(
+                                isAddingToCart = false,
                                 cartMessage = "Added to cart: ${product.name} x$quantity"
                         )
             } catch (e: Exception) {
                 _uiState.value =
                         _uiState.value.copy(
+                                isAddingToCart = false,
                                 cartMessage = "Failed to add to cart: ${e.message}"
                         )
             }
@@ -115,6 +122,7 @@ data class ProductDetailUiState(
         val error: String? = null,
         val selectedVariant: ProductVariant = ProductVariant(),
         val quantity: Int = 1,
+        val isAddingToCart: Boolean = false,
         val cartMessage: String? = null,
         val shareMessage: String? = null
 )

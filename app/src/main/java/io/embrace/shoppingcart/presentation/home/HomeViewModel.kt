@@ -11,6 +11,7 @@ import io.embrace.shoppingcart.domain.usecase.FilterAndSortProductsUseCase
 import io.embrace.shoppingcart.domain.usecase.GetCategoriesUseCase
 import io.embrace.shoppingcart.domain.usecase.GetProductsUseCase
 import io.embrace.shoppingcart.domain.usecase.UpdateCartItemQuantityUseCase
+import io.embrace.shoppingcart.network.AddToCartNetworkSimulator
 import io.embrace.shoppingcart.mock.AuthState
 import io.embrace.shoppingcart.mock.MockAuthService
 import kotlinx.coroutines.async
@@ -26,7 +27,8 @@ class HomeViewModel @Inject constructor(
     private val getCategories: GetCategoriesUseCase,
     private val filterAndSortProducts: FilterAndSortProductsUseCase,
     private val updateCartItemQuantity: UpdateCartItemQuantityUseCase,
-    private val authService: MockAuthService
+    private val authService: MockAuthService,
+    private val addToCartNetworkSimulator: AddToCartNetworkSimulator
 ) : ViewModel() {
 
     data class UiState(
@@ -40,7 +42,8 @@ class HomeViewModel @Inject constructor(
         val error: String? = null,
         val hasReachedEnd: Boolean = false,
         val currentPage: Int = 0,
-        val itemsPerPage: Int = 20
+        val itemsPerPage: Int = 20,
+        val addingProductIds: Set<String> = emptySet()
     )
 
     private val _state = MutableStateFlow(UiState())
@@ -204,14 +207,20 @@ class HomeViewModel @Inject constructor(
 
     fun addToCart(product: Product) {
         viewModelScope.launch {
+            // mark as adding
+            _state.update { it.copy(addingProductIds = it.addingProductIds + product.id) }
             val userId = (authService.state.value as? AuthState.LoggedIn)?.userId ?: run {
                 authService.login("demo-user")
                 "demo-user"
             }
             try {
+                // Simulate a network call for "add to cart" that Embrace can monitor.
+                addToCartNetworkSimulator.simulate(product.id, 1)
                 updateCartItemQuantity(userId, product.id, 1)
             } catch (e: Exception) {
                 _state.update { it.copy(error = e.message) }
+            } finally {
+                _state.update { it.copy(addingProductIds = it.addingProductIds - product.id) }
             }
         }
     }

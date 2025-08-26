@@ -80,8 +80,21 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    fun enterAsGuest() {
+        viewModelScope.launch {
+            try {
+                _state.update { it.copy(isLoading = true, message = null) }
+                val guestId = "guest"
+                userDao.upsert(UserEntity(id = guestId, name = "Guest", email = "guest@example.com"))
+                authService.login(guestId)
+                _state.update { it.copy(isLoading = false, success = true, message = "Welcome, Guest") }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false, message = e.message ?: "Guest entry failed") }
+            }
+        }
+    }
+
     companion object {
         private val EMAIL_REGEX = Regex("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")
     }
 }
-

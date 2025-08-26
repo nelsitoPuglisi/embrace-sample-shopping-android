@@ -26,6 +26,7 @@ fun ProductCard(
         product: Product,
         onProductClick: (Product) -> Unit,
         onAddToCartClick: (Product) -> Unit,
+        isAddingToCart: Boolean = false,
         modifier: Modifier = Modifier
 ) {
     Card(
@@ -46,6 +47,7 @@ fun ProductCard(
                 // Add to cart button
                 IconButton(
                         onClick = { onAddToCartClick(product) },
+                        enabled = !isAddingToCart && product.inStock,
                         modifier =
                                 Modifier.align(Alignment.TopEnd)
                                         .padding(8.dp)
@@ -57,11 +59,18 @@ fun ProductCard(
                                                 shape = RoundedCornerShape(50)
                                         )
                 ) {
-                    Icon(
-                            imageVector = Icons.Default.ShoppingCart,
-                            contentDescription = "Add to cart",
-                            tint = MaterialTheme.colorScheme.onSurface
-                    )
+                    if (isAddingToCart) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(18.dp),
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Icon(
+                                imageVector = Icons.Default.ShoppingCart,
+                                contentDescription = "Add to cart",
+                                tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
 
                 // Badge de descuento
