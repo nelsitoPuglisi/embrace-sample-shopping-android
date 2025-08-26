@@ -18,6 +18,7 @@ fun AddToCartSection(
         onQuantityChange: (Int) -> Unit,
         onAddToCart: () -> Unit,
         isProductAvailable: Boolean,
+        isAdding: Boolean = false,
         modifier: Modifier = Modifier
 ) {
     Row(
@@ -49,17 +50,26 @@ fun AddToCartSection(
 
         // Add to cart button
         Button(
-                onClick = onAddToCart,
-                modifier = Modifier.weight(1f),
-                enabled = isProductAvailable
+            onClick = onAddToCart,
+            modifier = Modifier.weight(1f),
+            enabled = isProductAvailable && !isAdding
         ) {
-            Icon(
+            if (isAdding) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(18.dp),
+                    strokeWidth = 2.dp
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Adding…")
+            } else {
+                Icon(
                     Icons.Default.ShoppingCart,
                     contentDescription = null,
                     modifier = Modifier.size(20.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Add to Cart")
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Add to Cart")
+            }
         }
     }
 }

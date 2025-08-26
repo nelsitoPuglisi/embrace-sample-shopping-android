@@ -66,6 +66,13 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel(), onSuccess: (() -> Uni
             TextButton(onClick = { viewModel.switchMode() }) {
                 Text(if (state.mode == AuthViewModel.Mode.Login) "No account? Register" else "Have an account? Login")
             }
+            OutlinedButton(
+                onClick = { viewModel.enterAsGuest() },
+                enabled = !state.isLoading,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Enter as guest")
+            }
             if (state.isLoading) {
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             }

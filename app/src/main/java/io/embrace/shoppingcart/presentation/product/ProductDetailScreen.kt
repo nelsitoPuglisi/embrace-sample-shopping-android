@@ -76,7 +76,8 @@ fun ProductDetailScreen(
                             quantity = uiState.quantity,
                             onQuantityChange = { viewModel.updateQuantity(it) },
                             onAddToCart = { viewModel.addToCart() },
-                            isProductAvailable = uiState.product?.inStock == true
+                            isProductAvailable = uiState.product?.inStock == true,
+                            isAdding = uiState.isAddingToCart
                     )
                 }
             }

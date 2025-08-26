@@ -62,6 +62,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                             context.startActivity(intent)
                         },
                         onAddToCartClick = { viewModel.addToCart(it) },
+                        isAddingToCart = state.addingProductIds.contains(product.id),
                         modifier = Modifier.width(240.dp).padding(8.dp)
                     )
                 }
