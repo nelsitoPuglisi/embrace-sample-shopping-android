@@ -64,20 +64,6 @@ android {
     }
     testOptions {
         animationsDisabled = true
-        managedDevices {
-            allDevices {
-                create("pixel6api33", ManagedVirtualDevice::class) {
-                    device = "Pixel 6"
-                    apiLevel = 33
-                    systemImageSource = "aosp-atd"
-                }
-            }
-            groups {
-                create("phoneGroup") {
-                    targetDevices.add(allDevices["pixel6api33"])
-                }
-            }
-        }
     }
 }
 
