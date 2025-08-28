@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+import com.android.build.api.dsl.ManagedVirtualDevice
 
 plugins {
     alias(libs.plugins.android.application)
@@ -65,10 +66,10 @@ android {
         animationsDisabled = true
         managedDevices {
             allDevices {
-                create<ManagedVirtualDevice>("pixel6api33") {
+                create("pixel6api33", ManagedVirtualDevice::class) {
                     device = "Pixel 6"
                     apiLevel = 33
-                    systemImageSource = "google-atd" // o "google" / "aosp"
+                    systemImageSource = "google-atd"
                 }
             }
             groups {
