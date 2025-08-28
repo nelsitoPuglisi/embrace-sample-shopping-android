@@ -129,4 +129,7 @@ dependencies {
     // Stripe + Google Pay
     implementation(libs.stripe.android)
     implementation(libs.play.services.wallet)
+
+    implementation(libs.embrace.android.compose)
+
 }

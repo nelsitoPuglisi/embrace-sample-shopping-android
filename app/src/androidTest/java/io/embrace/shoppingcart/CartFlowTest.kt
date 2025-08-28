@@ -69,11 +69,24 @@ class CartFlowTest {
         // 4) Wait 10s before verifying cart reflects the added item
         Thread.sleep(10_000)//wait so embrace can send the session
 
+
+
+        // 4) Send app to background via back button, then wait
+        // Press back up to 3 times to exit to background, ignoring when no activity remains
+        repeat(3) {
+            try {
+                Espresso.pressBack()
+                Thread.sleep(300)
+            } catch (_: NoActivityResumedException) {
+                return@repeat
+            }
+        }
+
         assert(true)
     }
 
     @Test
-    fun guest_can_add_first_item_and_see_it_in_cart_second() {
+    fun adding_two_items() {
         // 1) Launch Auth and enter as guest
         ActivityScenario.launch(AuthActivity::class.java)
         // Wait until the button is present and click via Semantics (avoids touch injection)
@@ -100,6 +113,14 @@ class CartFlowTest {
         composeRule.onAllNodes(hasContentDescription("Add to cart"))[0]
             .performClick()
 
+        // Ensure at least one product is visible and tap its "Add to cart"
+        composeRule.waitUntil(timeoutMillis = 10_000) {
+            composeRule.onAllNodes(hasContentDescription("Add to cart"))
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.onAllNodes(hasContentDescription("Add to cart"))[0]
+            .performClick()
+
         // 3) Open the cart from the top app bar
         composeRule.waitUntil(timeoutMillis = 5_000) {
             try {
@@ -113,6 +134,8 @@ class CartFlowTest {
         composeRule.onNode(hasContentDescription("Open cart"))
             .performClick()
 
+
+
         // 4) Send app to background via back button, then wait
         // Press back up to 3 times to exit to background, ignoring when no activity remains
         repeat(3) {
@@ -124,7 +147,8 @@ class CartFlowTest {
             }
         }
 
-        Thread.sleep(10_000) // wait so embrace can send the session
+        // 4) Wait 10s before verifying cart reflects the added item
+        Thread.sleep(10_000)//wait so embrace can send the session
 
         assert(true)
     }

@@ -109,7 +109,5 @@ fun CartScreen(viewModel: CartViewModel = hiltViewModel()) {
                 onDismiss = { viewModel.onSnackbarDismiss() }
             )
         }
-
-        Embrace.getInstance().endSession()
     }
 }

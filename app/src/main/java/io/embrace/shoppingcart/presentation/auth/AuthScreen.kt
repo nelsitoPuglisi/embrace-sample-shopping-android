@@ -1,5 +1,6 @@
 package io.embrace.shoppingcart.presentation.auth
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.embrace.android.embracesdk.Embrace
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,7 +71,8 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel(), onSuccess: (() -> Uni
             OutlinedButton(
                 onClick = { viewModel.enterAsGuest() },
                 enabled = !state.isLoading,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().clickable(onClickLabel = "Enter as guest") {
+                }
             ) {
                 Text("Enter as guest")
             }

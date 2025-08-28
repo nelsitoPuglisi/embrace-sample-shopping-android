@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
@@ -19,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import io.embrace.android.embracesdk.Embrace
 import io.embrace.shoppingcart.domain.model.Product
 
 @Composable
@@ -46,7 +48,10 @@ fun ProductCard(
 
                 // Add to cart button
                 IconButton(
-                        onClick = { onAddToCartClick(product) },
+                        onClick = {
+                            Embrace.getInstance().addBreadcrumb("Added to cart: ${product.name}")
+                            onAddToCartClick(product)
+                        },
                         enabled = !isAddingToCart && product.inStock,
                         modifier =
                                 Modifier.align(Alignment.TopEnd)
@@ -69,6 +74,40 @@ fun ProductCard(
                                 imageVector = Icons.Default.ShoppingCart,
                                 contentDescription = "Add to cart",
                                 tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
+
+                // Add to cart button
+                IconButton(
+                    onClick = {
+                        Embrace.getInstance().addBreadcrumb("Added to Favorites: ${product.name}")
+                    },
+                    enabled = !isAddingToCart && product.inStock,
+                    modifier =
+                        Modifier.align(Alignment.BottomEnd)
+                            .clickable(onClickLabel = "Favorite Icon") {
+
+                            }
+                            .padding(8.dp)
+                            .background(
+                                color =
+                                    MaterialTheme.colorScheme.surface.copy(
+                                        alpha = 0.8f
+                                    ),
+                                shape = RoundedCornerShape(50)
+                            )
+                ) {
+                    if (isAddingToCart) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(18.dp),
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Favorite",
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
