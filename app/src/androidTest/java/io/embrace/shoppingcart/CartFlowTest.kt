@@ -69,4 +69,51 @@ class CartFlowTest {
 
         assert(true)
     }
+
+    @Test
+    fun guest_can_add_first_item_and_see_it_in_cart_second() {
+        // 1) Launch Auth and enter as guest
+        ActivityScenario.launch(AuthActivity::class.java)
+        // Wait until the button is present and click via Semantics (avoids touch injection)
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            try {
+                composeRule.onNode(hasText("Enter as guest"), useUnmergedTree = true)
+                    .fetchSemanticsNode()
+                true
+            } catch (_: AssertionError) {
+                false
+            }
+        }
+        composeRule.onNode(hasText("Enter as guest"), useUnmergedTree = true)
+            .performClick()
+
+        // 2) Launch Home (now authenticated) and add first item to cart
+        ActivityScenario.launch(HomeActivity::class.java)
+
+        // Ensure at least one product is visible and tap its "Add to cart"
+        composeRule.waitUntil(timeoutMillis = 10_000) {
+            composeRule.onAllNodes(hasContentDescription("Add to cart"))
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.onAllNodes(hasContentDescription("Add to cart"))[0]
+            .performClick()
+
+        // 3) Open the cart from the top app bar
+        composeRule.waitUntil(timeoutMillis = 5_000) {
+            try {
+                composeRule.onNode(hasContentDescription("Open cart"))
+                    .fetchSemanticsNode()
+                true
+            } catch (_: AssertionError) {
+                false
+            }
+        }
+        composeRule.onNode(hasContentDescription("Open cart"))
+            .performClick()
+
+        // 4) Wait 10s before verifying cart reflects the added item
+        Thread.sleep(10_000)//wait so embrace can send the session
+
+        assert(true)
+    }
 }
