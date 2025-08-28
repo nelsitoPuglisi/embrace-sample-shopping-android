@@ -69,7 +69,7 @@ android {
                 create("pixel6api33", ManagedVirtualDevice::class) {
                     device = "Pixel 6"
                     apiLevel = 33
-                    systemImageSource = "google-atd"
+                    systemImageSource = "aosp-atd"
                 }
             }
             groups {
