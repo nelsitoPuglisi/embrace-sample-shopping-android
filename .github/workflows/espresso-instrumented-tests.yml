@@ -62,20 +62,20 @@ jobs:
           build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
           build-scan-terms-of-use-agree: "yes"
 
-      - name: Build projects and run instrumentation tests
+      - name: Build projects and run instrumentation tests api 24
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ matrix.api-level }}
+          api-level: 34
           arch: x86_64
           disable-animations: true
           disk-size: 6000M
           heap-size: 600M
           script: ./gradlew connectedMockDebugAndroidTest --daemon
 
-      - name: Build projects and run instrumentation tests again to have more sessions
+      - name: Build projects and run instrumentation tests again to have more sessions api 33
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ matrix.api-level }}
+          api-level: 33
           arch: x86_64
           disable-animations: true
           disk-size: 6000M
