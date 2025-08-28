@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.embrace.shoppingcart.presentation.components.MessageSnackbar
 import android.content.Intent
+import io.embrace.android.embracesdk.Embrace
 import io.embrace.shoppingcart.ui.checkout.CheckoutActivity
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -108,5 +109,7 @@ fun CartScreen(viewModel: CartViewModel = hiltViewModel()) {
                 onDismiss = { viewModel.onSnackbarDismiss() }
             )
         }
+
+        Embrace.getInstance().endSession()
     }
 }
