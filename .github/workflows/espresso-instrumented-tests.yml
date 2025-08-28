@@ -67,7 +67,7 @@ jobs:
           disable-animations: true
           disk-size: 6000M
           heap-size: 600M
-          script: ./gradlew connectedDemoDebugAndroidTest --daemon
+          script: ./gradlew connectedMockDebugAndroidTest --daemon
 
       - name: Run local tests (including Roborazzi) for the combined coverage report (only API 30)
         if: matrix.api-level == 30
