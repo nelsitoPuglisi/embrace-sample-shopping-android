@@ -86,9 +86,6 @@ fun ProductCard(
                     enabled = !isAddingToCart && product.inStock,
                     modifier =
                         Modifier.align(Alignment.BottomEnd)
-                            .clickable(onClickLabel = "Favorite Icon") {
-
-                            }
                             .padding(8.dp)
                             .background(
                                 color =
