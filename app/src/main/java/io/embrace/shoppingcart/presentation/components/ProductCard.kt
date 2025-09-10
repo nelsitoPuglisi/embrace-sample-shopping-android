@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.testTag
 import coil.compose.AsyncImage
 import io.embrace.android.embracesdk.Embrace
 import io.embrace.shoppingcart.domain.model.Product
@@ -56,6 +57,7 @@ fun ProductCard(
                         modifier =
                                 Modifier.align(Alignment.TopEnd)
                                         .padding(8.dp)
+                                        .testTag("add_to_cart")
                                         .background(
                                                 color =
                                                         MaterialTheme.colorScheme.surface.copy(
@@ -87,6 +89,7 @@ fun ProductCard(
                     modifier =
                         Modifier.align(Alignment.BottomEnd)
                             .padding(8.dp)
+                            .testTag("favorite_btn")
                             .background(
                                 color =
                                     MaterialTheme.colorScheme.surface.copy(

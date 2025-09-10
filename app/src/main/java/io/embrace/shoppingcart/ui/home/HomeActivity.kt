@@ -32,6 +32,7 @@ import io.embrace.shoppingcart.ui.auth.AuthActivity
 import io.embrace.shoppingcart.mock.MockAuthService
 import io.embrace.shoppingcart.mock.AuthState
 import javax.inject.Inject
+import androidx.compose.ui.platform.testTag
 
 @AndroidEntryPoint
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +59,7 @@ class HomeActivity : ComponentActivity() {
                                 val ctx = LocalContext.current
                                 IconButton(onClick = {
                                     ctx.startActivity(Intent(ctx, CartActivity::class.java))
-                                }) {
+                                }, modifier = Modifier.testTag("open_cart_btn")) {
                                     Icon(Icons.Default.ShoppingCart, contentDescription = "Open cart")
                                 }
                                 IconButton(onClick = {

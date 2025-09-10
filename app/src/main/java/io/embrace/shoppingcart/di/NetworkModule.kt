@@ -10,6 +10,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.embrace.shoppingcart.mock.MockApiService
 import io.embrace.shoppingcart.mock.MockNetworkConfig
+import io.embrace.shoppingcart.mock.NetworkScenario
+import io.embrace.shoppingcart.mock.MockNetworkConfigOverrides
 import io.embrace.shoppingcart.network.ApiService
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
@@ -51,7 +53,19 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMockNetworkConfig(): MockNetworkConfig = MockNetworkConfig()
+    fun provideMockNetworkConfig(): MockNetworkConfig {
+        MockNetworkConfigOverrides.override?.let { return it }
+        fun pickScenario(): NetworkScenario = NetworkScenario.values().random()
+        val defaultDelays = listOf(0L, 200L, 500L)
+        val slowDelays = listOf(2000L, 3000L, 5000L)
+        return MockNetworkConfig(
+            defaultDelayMs = defaultDelays.random(),
+            slowDelayMs = slowDelays.random(),
+            productsScenario = pickScenario(),
+            categoriesScenario = pickScenario(),
+            placeOrderScenario = pickScenario(),
+        )
+    }
 
     @Provides
     @Singleton

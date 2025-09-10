@@ -23,6 +23,12 @@ class MockAuthService @Inject constructor(
     private val _state = MutableStateFlow<AuthState>(AuthState.LoggedOut)
     val state: StateFlow<AuthState> = _state
 
+    init {
+        MockAuthOverrides.loggedInUserId?.let { uid ->
+            _state.value = AuthState.LoggedIn(uid)
+        }
+    }
+
     suspend fun login(userId: String) {
         delay(config.delayMs)
         if (config.failLogin) throw IllegalStateException("Login failed")

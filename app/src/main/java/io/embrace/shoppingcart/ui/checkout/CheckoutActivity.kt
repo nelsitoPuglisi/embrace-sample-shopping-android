@@ -25,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import io.embrace.android.embracesdk.Embrace
 import io.embrace.shoppingcart.ui.theme.EmbraceShoppingCartTheme
 import io.embrace.shoppingcart.presentation.checkout.CheckoutStep
 import io.embrace.shoppingcart.presentation.checkout.CheckoutViewModel
@@ -40,7 +41,9 @@ class CheckoutActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EmbraceShoppingCartTheme {
-                CheckoutScaffold()
+                CheckoutScaffold(onFinish = {
+                    finish()
+                })
             }
         }
     }
@@ -49,12 +52,12 @@ class CheckoutActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun CheckoutActivityPreview() {
-    EmbraceShoppingCartTheme { CheckoutScaffold() }
+    EmbraceShoppingCartTheme { CheckoutScaffold(onFinish = {}) }
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun CheckoutScaffold(viewModel: CheckoutViewModel = hiltViewModel()) {
+private fun CheckoutScaffold(viewModel: CheckoutViewModel = hiltViewModel(), onFinish: () -> Unit) {
     val state by viewModel.state.collectAsState()
     val navController = rememberNavController()
     Scaffold(
@@ -87,15 +90,21 @@ private fun CheckoutScaffold(viewModel: CheckoutViewModel = hiltViewModel()) {
                 }
                 composable("shipping") {
                     viewModel.goTo(CheckoutStep.Shipping)
-                    ShippingStep(onNext = { navController.navigate("payment") })
+                    ShippingStep(onNext = {
+                        Embrace.getInstance().addBreadcrumb("CHECKOUT_SHIPPING_COMPLETED")
+                        navController.navigate("payment")
+                    })
                 }
                 composable("payment") {
                     viewModel.goTo(CheckoutStep.Payment)
-                    PaymentStep(onNext = { navController.navigate("confirm") })
+                    PaymentStep(onNext = {
+                        Embrace.getInstance().addBreadcrumb("CHECKOUT_PAYMENT_COMPLETED")
+                        navController.navigate("confirm")
+                    })
                 }
                 composable("confirm") {
                     viewModel.goTo(CheckoutStep.Confirm)
-                    ConfirmationStep()
+                    ConfirmationStep(onFinish = onFinish)
                 }
             }
         }

@@ -12,6 +12,8 @@ import io.embrace.shoppingcart.data.repository.UserRepository
 import io.embrace.shoppingcart.data.repository.UserRepositoryImpl
 import io.embrace.shoppingcart.data.repository.CategoryRepository
 import io.embrace.shoppingcart.data.repository.CategoryRepositoryImpl
+import io.embrace.shoppingcart.data.repository.OrderRepository
+import io.embrace.shoppingcart.data.repository.OrderRepositoryImpl
 import javax.inject.Singleton
 
 @Module
@@ -32,6 +34,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindCartRepository(impl: CartRepositoryImpl): CartRepository
-}
 
+    @Binds
+    @Singleton
+    abstract fun bindOrderRepository(impl: OrderRepositoryImpl): OrderRepository
+}
 

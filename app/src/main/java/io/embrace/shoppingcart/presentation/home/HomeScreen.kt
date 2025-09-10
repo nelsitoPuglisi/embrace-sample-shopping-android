@@ -2,6 +2,7 @@ package io.embrace.shoppingcart.presentation.home
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
@@ -21,6 +22,9 @@ import io.embrace.shoppingcart.presentation.components.ProductCard
 import android.content.Intent
 import androidx.compose.ui.platform.LocalContext
 import io.embrace.shoppingcart.ui.product.ProductDetailActivity
+import androidx.compose.ui.platform.testTag
+import io.embrace.shoppingcart.BuildConfig
+import io.embrace.shoppingcart.presentation.testutil.UiTestOverrides
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -53,18 +57,36 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            LazyRow(modifier = Modifier.fillMaxWidth()) {
-                items(filtered) { product ->
-                    ProductCard(
-                        product = product,
-                        onProductClick = {
-                            val intent = ProductDetailActivity.createIntent(context, product.id)
-                            context.startActivity(intent)
-                        },
-                        onAddToCartClick = { viewModel.addToCart(it) },
-                        isAddingToCart = state.addingProductIds.contains(product.id),
-                        modifier = Modifier.width(240.dp).padding(8.dp)
-                    )
+            val useVerticalList = BuildConfig.DEBUG && UiTestOverrides.verticalListForTests
+            if (useVerticalList) {
+                LazyColumn(modifier = Modifier.fillMaxSize().testTag("home_products")) {
+                    items(filtered) { product ->
+                        ProductCard(
+                            product = product,
+                            onProductClick = {
+                                val intent = ProductDetailActivity.createIntent(context, product.id)
+                                context.startActivity(intent)
+                            },
+                            onAddToCartClick = { viewModel.addToCart(it) },
+                            isAddingToCart = state.addingProductIds.contains(product.id),
+                            modifier = Modifier.fillMaxWidth().padding(8.dp)
+                        )
+                    }
+                }
+            } else {
+                LazyRow(modifier = Modifier.fillMaxWidth().testTag("home_products")) {
+                    items(filtered) { product ->
+                        ProductCard(
+                            product = product,
+                            onProductClick = {
+                                val intent = ProductDetailActivity.createIntent(context, product.id)
+                                context.startActivity(intent)
+                            },
+                            onAddToCartClick = { viewModel.addToCart(it) },
+                            isAddingToCart = state.addingProductIds.contains(product.id),
+                            modifier = Modifier.width(240.dp).padding(8.dp)
+                        )
+                    }
                 }
             }
         }
@@ -76,14 +98,16 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
         )
 
         state.error?.let { msg ->
-            Column(
-                    modifier = Modifier.align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(msg)
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(onClick = { viewModel.load() }) { Text("Retry") }
-            }
+            io.embrace.shoppingcart.presentation.components.MessageSnackbar(
+                message = msg,
+                onDismiss = { viewModel.clearError() },
+                modifier = Modifier.align(Alignment.BottomCenter),
+                actionLabel = "Retry",
+                onAction = {
+                    viewModel.clearError()
+                    viewModel.load()
+                }
+            )
         }
     }
 }

@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.embrace.shoppingcart.presentation.components.MessageSnackbar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.ui.platform.testTag
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,13 +38,13 @@ fun PaymentMethodsScreen(viewModel: PaymentMethodsViewModel = hiltViewModel()) {
                 }
             }
 
-            OutlinedTextField(state.brand, viewModel::updateBrand, label = { Text("Brand") }, modifier = Modifier.fillMaxWidth())
-            OutlinedTextField(state.last4, viewModel::updateLast4, label = { Text("Last 4") }, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(state.brand, viewModel::updateBrand, label = { Text("Brand") }, modifier = Modifier.fillMaxWidth().testTag("brand_field"))
+            OutlinedTextField(state.last4, viewModel::updateLast4, label = { Text("Last 4") }, modifier = Modifier.fillMaxWidth().testTag("last4_field"))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedTextField(state.expiryMonth, viewModel::updateMonth, label = { Text("MM") }, modifier = Modifier.weight(1f))
-                OutlinedTextField(state.expiryYear, viewModel::updateYear, label = { Text("YYYY") }, modifier = Modifier.weight(1f))
+                OutlinedTextField(state.expiryMonth, viewModel::updateMonth, label = { Text("MM") }, modifier = Modifier.weight(1f).testTag("month_field"))
+                OutlinedTextField(state.expiryYear, viewModel::updateYear, label = { Text("YYYY") }, modifier = Modifier.weight(1f).testTag("year_field"))
             }
-            Button(onClick = { viewModel.save() }, modifier = Modifier.fillMaxWidth()) { Text("Save Payment Method") }
+            Button(onClick = { viewModel.save() }, modifier = Modifier.fillMaxWidth().testTag("save_btn")) { Text("Save Payment Method") }
         }
 
         state.message?.let { msg ->

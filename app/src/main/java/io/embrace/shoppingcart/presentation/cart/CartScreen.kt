@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.embrace.shoppingcart.presentation.components.MessageSnackbar
 import android.content.Intent
+import androidx.compose.ui.platform.testTag
 import io.embrace.android.embracesdk.Embrace
 import io.embrace.shoppingcart.ui.checkout.CheckoutActivity
 
@@ -58,7 +59,7 @@ fun CartScreen(viewModel: CartViewModel = hiltViewModel()) {
                             .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Column(modifier = Modifier.weight(1f)) {
+                        Column(modifier = Modifier.weight(1f).testTag("cart_item")) {
                             Text(lineItem.product.name)
                             Text("$" + String.format("%.2f", lineItem.product.priceCents / 100.0))
                         }
@@ -93,10 +94,11 @@ fun CartScreen(viewModel: CartViewModel = hiltViewModel()) {
             Text("Subtotal: $" + String.format("%.2f", state.subtotalCents / 100.0))
             Spacer(Modifier.height(8.dp))
             Button(onClick = {
+                Embrace.getInstance().addBreadcrumb("CHECKOUT_STARTED")
                 if (state.items.isNotEmpty()) {
                     context.startActivity(Intent(context, CheckoutActivity::class.java))
                 }
-            }, enabled = state.items.isNotEmpty(), modifier = Modifier.fillMaxWidth()) {
+            }, enabled = state.items.isNotEmpty(), modifier = Modifier.fillMaxWidth().testTag("checkout_btn")) {
                 Text("Continue to checkout")
             }
         }
