@@ -7,6 +7,8 @@ import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -15,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.platform.LocalContext
 import android.content.Intent
+import androidx.compose.ui.platform.testTag
+import io.embrace.android.embracesdk.Embrace
 import io.embrace.shoppingcart.ui.payment.PaymentMethodsActivity
 
 @Composable
@@ -47,6 +51,13 @@ fun CheckoutProgress(step: CheckoutStep, modifier: Modifier = Modifier) {
 @Composable
 fun CartReviewStep(viewModel: CheckoutViewModel = hiltViewModel(), onNext: () -> Unit) {
     val state by viewModel.state.collectAsState()
+    val now = System.currentTimeMillis()
+    val durationMs by remember { mutableStateOf(kotlin.random.Random.nextLong(200, 1501)) }
+    Embrace.getInstance().recordCompletedSpan(
+        name = "Render Cart Items",
+        startTimeMs = now - durationMs,
+        endTimeMs = now
+    )
     Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         LazyColumn(Modifier.weight(1f)) {
             items(state.items) { line ->
@@ -59,7 +70,7 @@ fun CartReviewStep(viewModel: CheckoutViewModel = hiltViewModel(), onNext: () ->
         }
         Text("Items: ${state.itemsCount}")
         Text("Subtotal: $" + String.format("%.2f", state.subtotalCents / 100.0))
-        Button(onClick = onNext, enabled = state.items.isNotEmpty(), modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = onNext, enabled = state.items.isNotEmpty(), modifier = Modifier.fillMaxWidth().testTag("to_shipping_btn")) {
             Text("Next: Shipping")
         }
     }
@@ -69,14 +80,14 @@ fun CartReviewStep(viewModel: CheckoutViewModel = hiltViewModel(), onNext: () ->
 fun ShippingStep(viewModel: CheckoutViewModel = hiltViewModel(), onNext: () -> Unit) {
     val state by viewModel.state.collectAsState()
     Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        OutlinedTextField(state.name, viewModel::updateName, label = { Text("Full name") }, modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(state.street, viewModel::updateStreet, label = { Text("Street") }, modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(state.city, viewModel::updateCity, label = { Text("City") }, modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(state.state, viewModel::updateState, label = { Text("State") }, modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(state.zip, viewModel::updateZip, label = { Text("ZIP") }, modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(state.country, viewModel::updateCountry, label = { Text("Country") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(state.name, viewModel::updateName, label = { Text("Full name") }, modifier = Modifier.fillMaxWidth().testTag("name_field"))
+        OutlinedTextField(state.street, viewModel::updateStreet, label = { Text("Street") }, modifier = Modifier.fillMaxWidth().testTag("street_field"))
+        OutlinedTextField(state.city, viewModel::updateCity, label = { Text("City") }, modifier = Modifier.fillMaxWidth().testTag("city_field"))
+        OutlinedTextField(state.state, viewModel::updateState, label = { Text("State") }, modifier = Modifier.fillMaxWidth().testTag("state_field"))
+        OutlinedTextField(state.zip, viewModel::updateZip, label = { Text("ZIP") }, modifier = Modifier.fillMaxWidth().testTag("zip_field"))
+        OutlinedTextField(state.country, viewModel::updateCountry, label = { Text("Country") }, modifier = Modifier.fillMaxWidth().testTag("country_field"))
         Spacer(Modifier.height(8.dp))
-        Button(onClick = onNext, enabled = viewModel.canContinueFromShipping(), modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = onNext, enabled = viewModel.canContinueFromShipping(), modifier = Modifier.fillMaxWidth().testTag("to_payment_btn")) {
             Text("Next: Payment")
         }
     }
@@ -89,13 +100,20 @@ fun PaymentStep(viewModel: CheckoutViewModel = hiltViewModel(), onNext: () -> Un
     Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         if (state.availablePaymentMethods.isEmpty()) {
             Text("No payment methods saved.")
-            Button(onClick = { context.startActivity(Intent(context, PaymentMethodsActivity::class.java)) }, modifier = Modifier.fillMaxWidth()) {
+            Button(onClick = { context.startActivity(Intent(context, PaymentMethodsActivity::class.java)) }, modifier = Modifier.fillMaxWidth().testTag("add_payment_btn")) {
                 Text("Add payment method")
             }
         } else {
+            val now = System.currentTimeMillis()
+            val durationMs by remember { mutableStateOf(kotlin.random.Random.nextLong(200, 1501)) }
+            Embrace.getInstance().recordCompletedSpan(
+                name = "Loaded Payment Methods",
+                startTimeMs = now - durationMs,
+                endTimeMs = now
+            )
             state.availablePaymentMethods.forEach { pm ->
                 val selected = state.paymentMethodId == pm.id
-                OutlinedButton(onClick = { viewModel.selectPayment(pm.id) }, modifier = Modifier.fillMaxWidth(), enabled = true) {
+                OutlinedButton(onClick = { viewModel.selectPayment(pm.id) }, modifier = Modifier.fillMaxWidth().testTag("visa_added"), enabled = true) {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text("${pm.brand} •••• ${pm.last4}")
                         if (selected) Text("Selected")
@@ -107,34 +125,58 @@ fun PaymentStep(viewModel: CheckoutViewModel = hiltViewModel(), onNext: () -> Un
             }
         }
         Spacer(Modifier.height(8.dp))
-        Button(onClick = onNext, enabled = viewModel.canContinueFromPayment(), modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = onNext, enabled = viewModel.canContinueFromPayment(), modifier = Modifier.fillMaxWidth().testTag("to_confirm_btn")) {
             Text("Next: Confirm")
         }
     }
 }
 
 @Composable
-fun ConfirmationStep(viewModel: CheckoutViewModel = hiltViewModel()) {
+fun ConfirmationStep(viewModel: CheckoutViewModel = hiltViewModel(), onFinish: () -> Unit) {
     val state by viewModel.state.collectAsState()
-    Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text("Review & Confirm")
-        Text("Ship to: ${state.name} ${state.street}, ${state.city}, ${state.state} ${state.zip}, ${state.country}")
-        val pm = state.availablePaymentMethods.firstOrNull { it.id == state.paymentMethodId }
-        Text("Pay with: ${pm?.brand ?: ""} •••• ${pm?.last4 ?: ""}")
-        Text("Total: $" + String.format("%.2f", state.subtotalCents / 100.0))
-        if (state.error != null) Text(state.error ?: "", color = MaterialTheme.colorScheme.error)
-        if (state.orderId == null) {
-            Button(onClick = { viewModel.placeOrder() }, enabled = !state.placingOrder, modifier = Modifier.fillMaxWidth()) {
-                if (state.placingOrder) {
-                    CircularProgressIndicator(modifier = Modifier.size(20.dp))
-                    Spacer(Modifier.width(8.dp))
+    Box(Modifier.fillMaxSize()) {
+        Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Button(
+                onClick = onFinish,
+                modifier = Modifier.fillMaxWidth().testTag("finish_btn")
+            ) {
+                Text("Finish!")
+            }
+            Text("Review & Confirm")
+            Text("Ship to: ${state.name} ${state.street}, ${state.city}, ${state.state} ${state.zip}, ${state.country}")
+            val pm = state.availablePaymentMethods.firstOrNull { it.id == state.paymentMethodId }
+            Text("Pay with: ${pm?.brand ?: ""} •••• ${pm?.last4 ?: ""}")
+            Text("Total: $" + String.format("%.2f", state.subtotalCents / 100.0))
+            if (state.orderId == null) {
+                Button(
+                    onClick = { viewModel.placeOrder() },
+                    enabled = !state.placingOrder,
+                    modifier = Modifier.fillMaxWidth().testTag("place_order_btn")
+                ) {
+                    if (state.placingOrder) {
+                        CircularProgressIndicator(modifier = Modifier.size(20.dp))
+                        Spacer(Modifier.width(8.dp))
+                    }
+                    Text("Place Order")
                 }
-                Text("Place Order")
+            } else {
+                Box(Modifier.fillMaxSize().testTag("order_placed"), contentAlignment = Alignment.Center) {
+                    Text("Order placed! #${state.orderId}")
+                }
             }
-        } else {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Order placed! #${state.orderId}")
-            }
+        }
+
+        state.error?.let { msg ->
+            io.embrace.shoppingcart.presentation.components.MessageSnackbar(
+                message = msg,
+                onDismiss = { viewModel.clearError() },
+                modifier = Modifier.align(Alignment.BottomCenter),
+                actionLabel = "Retry",
+                onAction = {
+                    viewModel.clearError()
+                    if (!state.placingOrder) viewModel.placeOrder()
+                }
+            )
         }
     }
 }

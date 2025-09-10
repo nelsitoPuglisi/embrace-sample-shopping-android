@@ -19,7 +19,7 @@ import io.embrace.shoppingcart.presentation.navigation.Routes
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(navController: NavController, viewModel: SearchViewModel = hiltViewModel()) {
-    val products by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) { viewModel.load() }
 
@@ -42,7 +42,7 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = hilt
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.padding(paddingValues)
         ) {
-            items(products) { product ->
+            items(state.products) { product ->
                 ProductCard(
                         product = product,
                         onProductClick = {
@@ -54,6 +54,25 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = hilt
                         modifier = Modifier.fillMaxWidth()
                 )
             }
+        }
+
+        if (state.isLoading) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
+
+        state.error?.let { msg ->
+            io.embrace.shoppingcart.presentation.components.MessageSnackbar(
+                message = msg,
+                onDismiss = { viewModel.clearError() },
+                modifier = Modifier.fillMaxSize(),
+                actionLabel = "Retry",
+                onAction = {
+                    viewModel.clearError()
+                    viewModel.load()
+                }
+            )
         }
     }
 }

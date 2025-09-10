@@ -57,17 +57,27 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true, error = null)
             try {
-                val productsDeferred = async { getProducts() }
-                val categoriesDeferred = async { getCategories() }
-                val products = productsDeferred.await()
-                val categories = categoriesDeferred.await()
-                
+                val (productsResult, categoriesResult) = kotlinx.coroutines.supervisorScope {
+                    val productsDeferred = async { runCatching { getProducts() } }
+                    val categoriesDeferred = async { runCatching { getCategories() } }
+                    productsDeferred.await() to categoriesDeferred.await()
+                }
+
+                val products = productsResult.getOrElse { emptyList() }
+                val categories = categoriesResult.getOrElse { emptyList() }
+
                 _state.update { currentState ->
                     currentState.copy(
                         products = products,
                         categories = categories,
                         isLoading = false
                     )
+                }
+                // Surface any error message to UI via snackbar
+                val err = productsResult.exceptionOrNull()?.message
+                    ?: categoriesResult.exceptionOrNull()?.message
+                if (err != null) {
+                    _state.update { it.copy(error = err) }
                 }
                 applyFilters()
             } catch (e: Exception) {
@@ -80,11 +90,15 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isRefreshing = true, error = null)
             try {
-                val productsDeferred = async { getProducts() }
-                val categoriesDeferred = async { getCategories() }
-                val products = productsDeferred.await()
-                val categories = categoriesDeferred.await()
-                
+                val (productsResult, categoriesResult) = kotlinx.coroutines.supervisorScope {
+                    val productsDeferred = async { runCatching { getProducts() } }
+                    val categoriesDeferred = async { runCatching { getCategories() } }
+                    productsDeferred.await() to categoriesDeferred.await()
+                }
+
+                val products = productsResult.getOrElse { emptyList() }
+                val categories = categoriesResult.getOrElse { emptyList() }
+
                 _state.update { currentState ->
                     currentState.copy(
                         products = products,
@@ -93,6 +107,11 @@ class HomeViewModel @Inject constructor(
                         currentPage = 0,
                         hasReachedEnd = false
                     )
+                }
+                val err = productsResult.exceptionOrNull()?.message
+                    ?: categoriesResult.exceptionOrNull()?.message
+                if (err != null) {
+                    _state.update { it.copy(error = err) }
                 }
                 applyFilters()
             } catch (e: Exception) {
