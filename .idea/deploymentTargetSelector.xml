@@ -8,16 +8,16 @@
       <SelectionState runConfigName="CartFlowSuccessTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CartFlowFailureTestFixed">
+      <SelectionState runConfigName="All Tests">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="Tests in 'io.embrace.shoppingcart'">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="CheckoutFlowTestsByScenario">
+      <SelectionState runConfigName="full_checkout_order_error()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="full_checkout_happy_path()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="CheckoutFlowTestsError">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

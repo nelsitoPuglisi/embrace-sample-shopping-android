@@ -1,7 +1,6 @@
 package io.embrace.shoppingcart
 
 import androidx.compose.ui.test.hasTestTag
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
@@ -16,12 +15,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class CheckoutFlowTestsByScenario {
+class CheckoutFlowTestsSuccess {
 
     @get:Rule
     val composeRule: AndroidComposeTestRule<*, *> = createAndroidComposeRule<HomeActivity>()
 
-    companion object {
+    companion object Companion {
         @JvmStatic
         @BeforeClass
         fun setupClass() {

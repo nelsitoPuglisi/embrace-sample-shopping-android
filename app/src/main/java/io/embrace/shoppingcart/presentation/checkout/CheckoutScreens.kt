@@ -167,6 +167,11 @@ fun ConfirmationStep(viewModel: CheckoutViewModel = hiltViewModel(), onFinish: (
         }
 
         state.error?.let { msg ->
+
+            Box(Modifier.fillMaxSize().testTag("order_failure"), contentAlignment = Alignment.Center) {
+                Text(msg)
+            }
+
             io.embrace.shoppingcart.presentation.components.MessageSnackbar(
                 message = msg,
                 onDismiss = { viewModel.clearError() },
