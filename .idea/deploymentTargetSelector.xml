@@ -8,16 +8,16 @@
       <SelectionState runConfigName="CartFlowSuccessTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="All Tests">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="full_checkout_order_error()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="full_checkout_happy_path()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CheckoutFlowTestsError">
+      <SelectionState runConfigName="CheckoutFlowTestsFailure">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="HomeFlowSuccessTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="CheckoutFlowTestsSuccess">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

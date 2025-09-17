@@ -29,7 +29,6 @@ class CheckoutFlowTestsSlow {
         @JvmStatic
         @BeforeClass
         fun setupClass() {
-            MockAuthOverrides.loggedInUserId = "test-user"
             UiTestOverrides.verticalListForTests = true
             MockNetworkConfigOverrides.override =
                 MockNetworkConfig(
@@ -44,6 +43,13 @@ class CheckoutFlowTestsSlow {
 
     @Test
     fun full_checkout_happy_path() {
+        composeRule.waitUntil(10_000) {
+            composeRule.onAllNodes(hasTestTag("enter_as_guest"), useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.onAllNodes(hasTestTag("enter_as_guest"), useUnmergedTree = true)[0]
+            .performClick()
+
         // Add first product to cart
         composeRule.waitUntil(30_000) {
             composeRule.onAllNodes(hasTestTag("add_to_cart"), useUnmergedTree = true)

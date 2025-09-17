@@ -24,7 +24,6 @@ class CheckoutFlowTestsSuccess {
         @JvmStatic
         @BeforeClass
         fun setupClass() {
-            io.embrace.shoppingcart.mock.MockAuthOverrides.loggedInUserId = "test-user"
             io.embrace.shoppingcart.presentation.testutil.UiTestOverrides.verticalListForTests = true
             io.embrace.shoppingcart.mock.MockNetworkConfigOverrides.override =
                 io.embrace.shoppingcart.mock.MockNetworkConfig(
@@ -39,6 +38,13 @@ class CheckoutFlowTestsSuccess {
 
     @Test
     fun full_checkout_happy_path() {
+        composeRule.waitUntil(10_000) {
+            composeRule.onAllNodes(hasTestTag("enter_as_guest"), useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.onAllNodes(hasTestTag("enter_as_guest"), useUnmergedTree = true)[0]
+            .performClick()
+
         // Add first product to cart
         composeRule.waitUntil(30_000) {
             composeRule.onAllNodes(hasTestTag("add_to_cart"), useUnmergedTree = true)

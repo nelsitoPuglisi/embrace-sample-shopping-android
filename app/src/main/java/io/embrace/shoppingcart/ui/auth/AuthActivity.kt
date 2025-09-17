@@ -1,5 +1,6 @@
 package io.embrace.shoppingcart.ui.auth
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,6 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 import io.embrace.shoppingcart.presentation.auth.AuthScreen
+import io.embrace.shoppingcart.ui.checkout.CheckoutActivity
+import io.embrace.shoppingcart.ui.home.HomeActivity
 import io.embrace.shoppingcart.ui.theme.EmbraceShoppingCartTheme
 
 @AndroidEntryPoint
@@ -27,7 +30,10 @@ class AuthActivity : ComponentActivity() {
                     contentWindowInsets = WindowInsets.systemBars
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        AuthScreen(onSuccess = { finish() })
+                        AuthScreen(onSuccess = {
+                            startActivity(Intent(this@AuthActivity, HomeActivity::class.java))
+                            finish()
+                        })
                     }
                 }
             }

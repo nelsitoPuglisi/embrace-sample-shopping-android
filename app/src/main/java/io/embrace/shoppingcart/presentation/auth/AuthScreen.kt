@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.embrace.android.embracesdk.Embrace
@@ -74,7 +75,7 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel(), onSuccess: (() -> Uni
                     Embrace.getInstance().addBreadcrumb("Entered as guest")
                           },
                 enabled = !state.isLoading,
-                modifier = Modifier.fillMaxWidth().clickable(onClickLabel = "Enter as guest") {
+                modifier = Modifier.fillMaxWidth().testTag("enter_as_guest").clickable(onClickLabel = "Enter as guest") {
                 }
             ) {
                 Text("Enter as guest")
