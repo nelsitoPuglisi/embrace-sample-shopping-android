@@ -89,6 +89,13 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                     }
                 }
             }
+
+            Box() {
+                Button(
+                    onClick = { 1 / 0 },
+                    modifier = Modifier.padding(horizontal = 4.dp).testTag("crash_button")
+                ) { Text("How much is 1 divided by Zero?") }
+            }
         }
 
         PullRefreshIndicator(
