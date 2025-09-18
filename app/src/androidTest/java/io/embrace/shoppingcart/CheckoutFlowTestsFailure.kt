@@ -8,7 +8,6 @@ import androidx.compose.ui.test.performTextInput
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.NoActivityResumedException
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import io.embrace.shoppingcart.mock.MockAuthOverrides
 import io.embrace.shoppingcart.mock.MockNetworkConfig
 import io.embrace.shoppingcart.mock.MockNetworkConfigOverrides
 import io.embrace.shoppingcart.mock.NetworkScenario
@@ -24,6 +23,7 @@ class CheckoutFlowTestsFailure {
 
     @get:Rule
     val composeRule: AndroidComposeTestRule<*, *> = createAndroidComposeRule<HomeActivity>()
+
 
     companion object Companion {
         @JvmStatic
@@ -43,15 +43,11 @@ class CheckoutFlowTestsFailure {
 
     @Test
     fun full_checkout_happy_path() {
-        composeRule.waitUntil(10_000) {
-            composeRule.onAllNodes(hasTestTag("enter_as_guest"), useUnmergedTree = true)
-                .fetchSemanticsNodes().isNotEmpty()
-        }
-        composeRule.onAllNodes(hasTestTag("enter_as_guest"), useUnmergedTree = true)[0]
-            .performClick()
+        // Click "enter_as_guest" if present (skip if already authenticated as guest)
+        composeRule.clickIfExists(tag = "enter_as_guest", timeoutMs = 3_000)
 
         // Add first product to cart
-        composeRule.waitUntil(30_000) {
+        composeRule.waitUntil(conditionDescription = "add_to_cart", 30_000) {
             composeRule.onAllNodes(hasTestTag("add_to_cart"), useUnmergedTree = true)
                 .fetchSemanticsNodes().isNotEmpty()
         }
@@ -59,23 +55,23 @@ class CheckoutFlowTestsFailure {
             .performClick()
 
         // Open cart
-        composeRule.waitUntil(10_000) {
+        composeRule.waitUntil(conditionDescription = "open_cart_btn", 10_000) {
             try {
                 composeRule.onNode(hasTestTag("open_cart_btn"), useUnmergedTree = true)
                     .fetchSemanticsNode()
-                ; true
+                true
             } catch (_: AssertionError) { false }
         }
         composeRule.onNode(hasTestTag("open_cart_btn"), useUnmergedTree = true).performClick()
 
         // Continue to checkout
-        composeRule.waitUntil(30_000) {
+        composeRule.waitUntil(conditionDescription = "cart_item", 30_000) {
             try { composeRule.onNode(hasTestTag("cart_item"), useUnmergedTree = true).fetchSemanticsNode(); true } catch (_: AssertionError) { false }
         }
         composeRule.onNode(hasTestTag("checkout_btn"), useUnmergedTree = true).performClick()
 
         // Next: Shipping
-        composeRule.waitUntil(10_000) {
+        composeRule.waitUntil(conditionDescription = "to_shipping_btn", 10_000) {
             try { composeRule.onNode(hasTestTag("to_shipping_btn"), useUnmergedTree = true).fetchSemanticsNode(); true } catch (_: AssertionError) { false }
         }
         composeRule.onNode(hasTestTag("to_shipping_btn"), useUnmergedTree = true).performClick()
@@ -91,48 +87,47 @@ class CheckoutFlowTestsFailure {
         // Next: Payment
         composeRule.onNode(hasTestTag("to_payment_btn"), useUnmergedTree = true).performClick()
 
-        // Add payment method
-        composeRule.waitUntil(10_000) {
-            try { composeRule.onNode(hasTestTag("add_payment_btn"), useUnmergedTree = true).fetchSemanticsNode(); true } catch (_: AssertionError) { false }
-        }
-        composeRule.onNode(hasTestTag("add_payment_btn"), useUnmergedTree = true).performClick()
+        // Add payment method if needed (skip if one already exists)
+        if (composeRule.exists("add_payment_btn")) {
+            composeRule.onNode(hasTestTag("add_payment_btn"), useUnmergedTree = true).performClick()
 
-        // Fill payment method details
-        composeRule.waitUntil(10_000) {
-            try { composeRule.onNode(hasTestTag("brand_field"), useUnmergedTree = true).fetchSemanticsNode(); true } catch (_: AssertionError) { false }
-        }
-        composeRule.onNode(hasTestTag("brand_field"), useUnmergedTree = true).performTextInput("VISA")
-        composeRule.onNode(hasTestTag("last4_field"), useUnmergedTree = true).performTextInput("4242")
-        composeRule.onNode(hasTestTag("month_field"), useUnmergedTree = true).performTextInput("12")
-        composeRule.onNode(hasTestTag("year_field"), useUnmergedTree = true).performTextInput("2028")
-        composeRule.onNode(hasTestTag("save_btn"), useUnmergedTree = true).performClick()
+            // Fill payment method details
+            composeRule.waitUntil(conditionDescription = "brand_field", 10_000) {
+                try { composeRule.onNode(hasTestTag("brand_field"), useUnmergedTree = true).fetchSemanticsNode(); true } catch (_: AssertionError) { false }
+            }
+            composeRule.onNode(hasTestTag("brand_field"), useUnmergedTree = true).performTextInput("VISA")
+            composeRule.onNode(hasTestTag("last4_field"), useUnmergedTree = true).performTextInput("4242")
+            composeRule.onNode(hasTestTag("month_field"), useUnmergedTree = true).performTextInput("12")
+            composeRule.onNode(hasTestTag("year_field"), useUnmergedTree = true).performTextInput("2028")
+            composeRule.onNode(hasTestTag("save_btn"), useUnmergedTree = true).performClick()
 
-        // Go back to Payment screen (dismiss keyboard then activity)
-        Espresso.pressBack()
-        Thread.sleep(200)
-        Espresso.pressBack()
+            // Go back to Payment screen (dismiss keyboard then activity)
+            Espresso.pressBack()
+            Thread.sleep(200)
+            Espresso.pressBack()
+        }
 
         // Select the newly added payment method (row button)
-        composeRule.waitUntil(15_000) {
+        composeRule.waitUntil(conditionDescription = "visa_added", 15_000) {
             composeRule.onAllNodes(hasTestTag("visa_added"), useUnmergedTree = true)
                 .fetchSemanticsNodes().isNotEmpty()
         }
         composeRule.onAllNodes(hasTestTag("visa_added"), useUnmergedTree = true)[0].performClick()
 
         // Next: Confirm
-        composeRule.waitUntil(15_000) {
+        composeRule.waitUntil(conditionDescription = "to_confirm_btn", 15_000) {
             try { composeRule.onNode(hasTestTag("to_confirm_btn"), useUnmergedTree = true).fetchSemanticsNode(); true } catch (_: AssertionError) { false }
         }
         composeRule.onNode(hasTestTag("to_confirm_btn"), useUnmergedTree = true).performClick()
 
         // Place Order
-        composeRule.waitUntil(10_000) {
+        composeRule.waitUntil(conditionDescription = "place_order_btn", 10_000) {
             try { composeRule.onNode(hasTestTag("place_order_btn"), useUnmergedTree = true).fetchSemanticsNode(); true } catch (_: AssertionError) { false }
         }
         composeRule.onNode(hasTestTag("place_order_btn"), useUnmergedTree = true).performClick()
 
         // Optionally, wait for confirmation text
-        composeRule.waitUntil(10_000) {
+        composeRule.waitUntil(conditionDescription = "order_failure", 10_000) {
             try { composeRule.onNode(hasTestTag("order_failure"), useUnmergedTree = true).fetchSemanticsNode(); true } catch (_: AssertionError) { false }
         }
 

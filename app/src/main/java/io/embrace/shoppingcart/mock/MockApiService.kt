@@ -29,32 +29,35 @@ class MockApiService @Inject constructor(
         Types.newParameterizedType(List::class.java, CategoryDto::class.java)
     )
 
+    private fun currentConfig(): MockNetworkConfig = MockNetworkConfigOverrides.override ?: config
+
     override suspend fun getProducts(): List<ProductDto> {
         val url = "https://api.ecommerce.com/products"
         val start = System.currentTimeMillis()
-        return when (config.productsScenario) {
+        val cfg = currentConfig()
+        return when (cfg.productsScenario) {
             NetworkScenario.SUCCESS -> {
-                delay(config.defaultDelayMs)
+                delay(cfg.defaultDelayMs)
                 val result = loadProducts()
                 val end = System.currentTimeMillis()
                 recordCompletedNetworkRequest(url, HttpMethod.GET, start, end, 200)
                 result
             }
             NetworkScenario.FAILURE -> {
-                delay(config.defaultDelayMs)
+                delay(cfg.defaultDelayMs)
                 val end = System.currentTimeMillis()
                 recordIncompletedNetworkRequest(url, HttpMethod.GET, start, end, "Simulated network failure")
                 throw IOException("Simulated network failure")
             }
             NetworkScenario.SLOW -> {
-                delay(config.slowDelayMs)
+                delay(cfg.slowDelayMs)
                 val result = loadProducts()
                 val end = System.currentTimeMillis()
                 recordCompletedNetworkRequest(url, HttpMethod.GET, start, end, 200)
                 result
             }
             NetworkScenario.SERVER_ERROR -> {
-                delay(config.defaultDelayMs)
+                delay(cfg.defaultDelayMs)
                 val end = System.currentTimeMillis()
                 recordCompletedNetworkRequest(url, HttpMethod.GET, start, end, 500)
                 throw IOException("Simulated server error (500)")
@@ -65,29 +68,30 @@ class MockApiService @Inject constructor(
     override suspend fun getCategories(): List<CategoryDto> {
         val url = "https://api.ecommerce.com/categories"
         val start = System.currentTimeMillis()
-        return when (config.categoriesScenario) {
+        val cfg = currentConfig()
+        return when (cfg.categoriesScenario) {
             NetworkScenario.SUCCESS -> {
-                delay(config.defaultDelayMs)
+                delay(cfg.defaultDelayMs)
                 val result = loadCategories()
                 val end = System.currentTimeMillis()
                 recordCompletedNetworkRequest(url, HttpMethod.GET, start, end, 200)
                 result
             }
             NetworkScenario.FAILURE -> {
-                delay(config.defaultDelayMs)
+                delay(cfg.defaultDelayMs)
                 val end = System.currentTimeMillis()
                 recordIncompletedNetworkRequest(url, HttpMethod.GET, start, end, "Simulated network failure")
                 throw IOException("Simulated network failure")
             }
             NetworkScenario.SLOW -> {
-                delay(config.slowDelayMs)
+                delay(cfg.slowDelayMs)
                 val result = loadCategories()
                 val end = System.currentTimeMillis()
                 recordCompletedNetworkRequest(url, HttpMethod.GET, start, end, 200)
                 result
             }
             NetworkScenario.SERVER_ERROR -> {
-                delay(config.defaultDelayMs)
+                delay(cfg.defaultDelayMs)
                 val end = System.currentTimeMillis()
                 recordCompletedNetworkRequest(url, HttpMethod.GET, start, end, 500)
                 throw IOException("Simulated server error (500)")
@@ -98,32 +102,33 @@ class MockApiService @Inject constructor(
     override suspend fun placeOrder(request: OrderRequest): OrderResponse {
         val url = "https://api.ecommerce.com/orders"
         val start = System.currentTimeMillis()
-        return when (config.placeOrderScenario) {
+        val cfg = currentConfig()
+        return when (cfg.placeOrderScenario) {
             NetworkScenario.SUCCESS -> {
-                delay(config.defaultDelayMs)
+                delay(cfg.defaultDelayMs)
                 val response = OrderResponse(orderId = "ord-${System.currentTimeMillis()}")
                 val end = System.currentTimeMillis()
                 recordCompletedNetworkRequest(url, HttpMethod.POST, start, end, 200)
                 response
             }
             NetworkScenario.FAILURE -> {
-                delay(config.defaultDelayMs)
+                delay(cfg.defaultDelayMs)
                 val end = System.currentTimeMillis()
                 recordIncompletedNetworkRequest(url, HttpMethod.POST, start, end, "Simulated order placement failure")
-                throw IOException("Simulated order placement failure")
+                throw IOException("Connection error failure")
             }
             NetworkScenario.SLOW -> {
-                delay(config.slowDelayMs)
+                delay(cfg.slowDelayMs)
                 val response = OrderResponse(orderId = "ord-${System.currentTimeMillis()}")
                 val end = System.currentTimeMillis()
                 recordCompletedNetworkRequest(url, HttpMethod.POST, start, end, 200)
                 response
             }
             NetworkScenario.SERVER_ERROR -> {
-                delay(config.defaultDelayMs)
+                delay(cfg.defaultDelayMs)
                 val end = System.currentTimeMillis()
                 recordCompletedNetworkRequest(url, HttpMethod.POST, start, end, 500)
-                throw IOException("Simulated server error (500)")
+                throw IOException("Server error (500)")
             }
         }
     }

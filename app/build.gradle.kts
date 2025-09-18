@@ -27,6 +27,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        // Keep default runner; we dynamically read mock overrides in MockApiService
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

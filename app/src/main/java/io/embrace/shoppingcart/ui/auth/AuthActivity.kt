@@ -14,7 +14,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 import io.embrace.shoppingcart.presentation.auth.AuthScreen
-import io.embrace.shoppingcart.ui.checkout.CheckoutActivity
 import io.embrace.shoppingcart.ui.home.HomeActivity
 import io.embrace.shoppingcart.ui.theme.EmbraceShoppingCartTheme
 

@@ -61,9 +61,9 @@ object NetworkModule {
         return MockNetworkConfig(
             defaultDelayMs = defaultDelays.random(),
             slowDelayMs = slowDelays.random(),
-            productsScenario = NetworkScenario.SUCCESS,// pickScenario(),
-            categoriesScenario = NetworkScenario.SUCCESS,// pickScenario(),
-            placeOrderScenario = NetworkScenario.SUCCESS,// pickScenario(),
+            productsScenario = pickScenario(),
+            categoriesScenario = pickScenario(),
+            placeOrderScenario = pickScenario(),
         )
     }
 
