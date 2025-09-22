@@ -50,6 +50,7 @@ android {
     }
 
     flavorDimensions += "env"
+    flavorDimensions += "embrace"
     productFlavors {
         create("mock") {
             dimension = "env"
@@ -60,6 +61,21 @@ android {
         create("prod") {
             dimension = "env"
             buildConfigField("boolean", "USE_MOCK", "false")
+        }
+        create("demo") {
+            dimension = "embrace"
+            applicationIdSuffix = ".demo"
+            versionNameSuffix = "-demo"
+        }
+        create("europe") {
+            dimension = "embrace"
+            applicationIdSuffix = ".europe"
+            versionNameSuffix = "-europe"
+        }
+        create("sandbox") {
+            dimension = "embrace"
+            applicationIdSuffix = ".sandbox"
+            versionNameSuffix = "-sandbox"
         }
     }
     packaging {
