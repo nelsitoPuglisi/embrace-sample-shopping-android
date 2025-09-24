@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,8 +24,10 @@ import android.content.Intent
 import androidx.compose.ui.platform.LocalContext
 import io.embrace.shoppingcart.ui.product.ProductDetailActivity
 import androidx.compose.ui.platform.testTag
+import io.embrace.android.embracesdk.Embrace
 import io.embrace.shoppingcart.BuildConfig
 import io.embrace.shoppingcart.presentation.testutil.UiTestOverrides
+import kotlin.random.Random
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -115,6 +118,18 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                     viewModel.load()
                 }
             )
+        }
+    }
+    val chance = remember { Random.nextInt(3) } // 0, 1, or 2 with ~33% chance each
+    when(chance) {
+        0 -> {
+            Embrace.getInstance().addSessionProperty("User Cohort", "A", false)
+        }
+        1 -> {
+            Embrace.getInstance().addSessionProperty("User Cohort", "B", false)
+        }
+        2 -> {
+            Embrace.getInstance().addSessionProperty("User Cohort", "C", false)
         }
     }
 }
