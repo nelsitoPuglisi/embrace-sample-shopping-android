@@ -120,16 +120,11 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             )
         }
     }
-    val chance = remember { Random.nextInt(3) } // 0, 1, or 2 with ~33% chance each
-    when(chance) {
-        0 -> {
-            Embrace.getInstance().addSessionProperty("User Cohort", "A", false)
-        }
-        1 -> {
-            Embrace.getInstance().addSessionProperty("User Cohort", "B", false)
-        }
-        2 -> {
-            Embrace.getInstance().addSessionProperty("User Cohort", "C", false)
-        }
+    val chance = remember { Random.nextInt(10) } // 0..9 inclusive
+    val cohort = when {
+        chance < 5 -> "A"
+        chance < 8 -> "B"
+        else -> "C"
     }
+    Embrace.getInstance().addSessionProperty("User Cohort", cohort, false)
 }
