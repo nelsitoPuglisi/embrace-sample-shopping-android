@@ -150,6 +150,7 @@ class MockApiService @Inject constructor(
         endTime: Long,
         statusCode: Int
         ) {
+        val traceparent = Embrace.getInstance().generateW3cTraceparent()
         Embrace.getInstance().recordNetworkRequest(
             EmbraceNetworkRequest.fromCompletedRequest(
                 url = url,
@@ -158,7 +159,9 @@ class MockApiService @Inject constructor(
                 endTime = endTime,
                 bytesSent = 0,
                 bytesReceived = 0,
-                statusCode = statusCode
+                statusCode = statusCode,
+                w3cTraceparent = traceparent
+
             )
         )
     }
