@@ -19,7 +19,9 @@ import androidx.compose.ui.platform.LocalContext
 import android.content.Intent
 import androidx.compose.ui.platform.testTag
 import io.embrace.android.embracesdk.Embrace
+import io.embrace.android.embracesdk.spans.ErrorCode
 import io.embrace.shoppingcart.ui.payment.PaymentMethodsActivity
+import kotlin.random.Random
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -106,11 +108,23 @@ fun PaymentStep(viewModel: CheckoutViewModel = hiltViewModel(), onNext: () -> Un
         } else {
             val now = System.currentTimeMillis()
             val durationMs by remember { mutableStateOf(kotlin.random.Random.nextLong(200, 1501)) }
-            Embrace.getInstance().recordCompletedSpan(
-                name = "Loaded Payment Methods",
-                startTimeMs = now - durationMs,
-                endTimeMs = now
-            )
+            val chanceOfFailure = remember { Random.nextInt(10) } // 0..9 inclusive
+            when {
+                chanceOfFailure < 3 -> {
+                    Embrace.getInstance().recordCompletedSpan(
+                        name = "Loaded Payment Methods",
+                        startTimeMs = now - durationMs,
+                        endTimeMs = now,
+                        errorCode = ErrorCode.FAILURE
+                    )
+                    Embrace.getInstance().logError("Failed parsing payment_methods response from backend")
+                }
+                else -> Embrace.getInstance().recordCompletedSpan(
+                    name = "Loaded Payment Methods",
+                    startTimeMs = now - durationMs,
+                    endTimeMs = now
+                )
+            }
             state.availablePaymentMethods.forEach { pm ->
                 val selected = state.paymentMethodId == pm.id
                 OutlinedButton(onClick = { viewModel.selectPayment(pm.id) }, modifier = Modifier.fillMaxWidth().testTag("visa_added"), enabled = true) {
@@ -162,6 +176,10 @@ fun ConfirmationStep(viewModel: CheckoutViewModel = hiltViewModel(), onFinish: (
             } else {
                 Box(Modifier.fillMaxSize().testTag("order_placed"), contentAlignment = Alignment.Center) {
                     Text("Order placed! #${state.orderId}")
+                }
+                val chanceOfFailure = remember { Random.nextInt(10) } // 0..9 inclusive
+                if (chanceOfFailure < 3) {
+                    Embrace.getInstance().logInfo("Displaying error modal: Sorry, we're having trouble processing your order. Please try again later.")
                 }
             }
         }
