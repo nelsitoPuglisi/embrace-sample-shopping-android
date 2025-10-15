@@ -113,17 +113,9 @@ fun PaymentStep(viewModel: CheckoutViewModel = hiltViewModel(), onNext: () -> Un
             val chanceOfFailure = remember { Random.nextInt(10) } // 0..9 inclusive
             when {
                 chanceOfFailure < 3 -> {
-                    Embrace.getInstance().recordNetworkRequest(
-                        EmbraceNetworkRequest.fromCompletedRequest(
-                            url = "https://api.ecommerce.com/payment_methods",
-                            httpMethod = HttpMethod.GET,
-                            startTime = now - durationMs + 200,
-                            endTime = now,
-                            bytesSent = 0,
-                            bytesReceived = 0,
-                            statusCode = 500
-                        )
-                    )
+                    failedRequestPaymentMethods(now, durationMs)
+                    failedRequestPaymentMethods(now, durationMs)
+                    failedRequestPaymentMethods(now, durationMs)
                     Embrace.getInstance().recordCompletedSpan(
                         name = "Loaded Payment Methods",
                         startTimeMs = now - durationMs,
@@ -156,6 +148,21 @@ fun PaymentStep(viewModel: CheckoutViewModel = hiltViewModel(), onNext: () -> Un
             Text("Next: Confirm")
         }
     }
+}
+
+@Composable
+private fun failedRequestPaymentMethods(now: Long, durationMs: Long) {
+    Embrace.getInstance().recordNetworkRequest(
+        EmbraceNetworkRequest.fromCompletedRequest(
+            url = "https://api.ecommerce.com/payment_methods",
+            httpMethod = HttpMethod.GET,
+            startTime = now - durationMs + 200,
+            endTime = now,
+            bytesSent = 0,
+            bytesReceived = 0,
+            statusCode = 500
+        )
+    )
 }
 
 @Composable
