@@ -19,6 +19,8 @@ import androidx.compose.ui.platform.LocalContext
 import android.content.Intent
 import androidx.compose.ui.platform.testTag
 import io.embrace.android.embracesdk.Embrace
+import io.embrace.android.embracesdk.network.EmbraceNetworkRequest
+import io.embrace.android.embracesdk.network.http.HttpMethod
 import io.embrace.android.embracesdk.spans.ErrorCode
 import io.embrace.shoppingcart.ui.payment.PaymentMethodsActivity
 import kotlin.random.Random
@@ -111,6 +113,17 @@ fun PaymentStep(viewModel: CheckoutViewModel = hiltViewModel(), onNext: () -> Un
             val chanceOfFailure = remember { Random.nextInt(10) } // 0..9 inclusive
             when {
                 chanceOfFailure < 3 -> {
+                    Embrace.getInstance().recordNetworkRequest(
+                        EmbraceNetworkRequest.fromCompletedRequest(
+                            url = "https://api.ecommerce.com/payment_methods",
+                            httpMethod = HttpMethod.GET,
+                            startTime = now - durationMs + 200,
+                            endTime = now,
+                            bytesSent = 0,
+                            bytesReceived = 0,
+                            statusCode = 500
+                        )
+                    )
                     Embrace.getInstance().recordCompletedSpan(
                         name = "Loaded Payment Methods",
                         startTimeMs = now - durationMs,
