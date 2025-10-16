@@ -46,8 +46,6 @@ class CheckoutFlowTestsProd {
         // Click "enter_as_guest" if present (skip if already authenticated as guest)
         composeRule.clickIfExists(tag = "enter_as_guest", timeoutMs = 3_000)
 
-        Thread.sleep(15_000)
-
         // Add first product to cart
         composeRule.waitUntil(conditionDescription = "add_to_cart", 30_000) {
             composeRule.onAllNodes(hasTestTag("add_to_cart"), useUnmergedTree = true)
@@ -135,7 +133,7 @@ class CheckoutFlowTestsProd {
 
         composeRule.onNode(hasTestTag("finish_btn"), useUnmergedTree = true).performClick()
         repeat(3) { try { Espresso.pressBack(); Thread.sleep(300) } catch (_: NoActivityResumedException) { return@repeat } }
-        Thread.sleep(2_000)
+        Thread.sleep(3_000)
         assert(true)
     }
 
