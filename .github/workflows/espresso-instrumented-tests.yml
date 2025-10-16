@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         api-level: [ 31, 32, 33, 34 ]
-        flavor: [ Europe, Demo, Sandbox ]
+        flavor: [ MockEurope, MockDemo, ProdDemo, MockSandbox ]
 
     steps:
       - name: Enable KVM group perms
@@ -61,4 +61,4 @@ jobs:
           disable-animations: true
           disk-size: 6000M
           heap-size: 600M
-          script: ./gradlew connectedMock${{ matrix.flavor }}DebugAndroidTest --daemon
+          script: ./gradlew connected${{ matrix.flavor }}DebugAndroidTest --daemon
