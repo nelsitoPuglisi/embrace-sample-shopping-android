@@ -108,8 +108,9 @@ jobs:
         with:
           api-level: 30
           arch: x86_64
-          target: default
-          profile: Pixel_5
+          disable-animations: true
+          disk-size: 6000M
+          heap-size: 600M
           emulator-options: "-no-snapshot-save -noaudio -no-boot-anim -camera-back none"
           script: |
             set -e
