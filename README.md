@@ -155,3 +155,6 @@ Los archivos `products.json` y `categories.json` contienen datos de ejemplo con:
 
 Este proyecto es parte de la muestra de implementación de Jetpack Compose para aplicaciones de comercio electrónico.
 
+## 🤖 Estrategia de Workflows Espresso
+- **Build APKs (on change)** compila en cada push a `main` o `master` y publica los artefactos (`app-mockDebug.apk`, `app-mockSandbox.apk`, `app-mockEurope.apk`, `app-prodDebug.apk` más sus correspondientes `-androidTest.apk`).
+- **Run Espresso (every 10 min, reuse last build)** se ejecuta cada 10 minutos o manualmente, descarga el último build exitoso de cada variante, inicia un emulador, instala los APKs precompilados y ejecuta `am instrument` sin volver a compilar.
