@@ -5,6 +5,9 @@
   "sdk_config": {
     "compose": {
       "capture_compose_onclick": true
+    },
+    "networking": {
+      "enable_network_span_forwarding": true
     }
   }
 }
