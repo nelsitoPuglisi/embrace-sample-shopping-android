@@ -13,7 +13,6 @@ interface ApiService {
     @GET("categories")
     suspend fun getCategories(): List<CategoryDto>
 
-    @POST("orders")
+    @POST("mock/v1/order/")
     suspend fun placeOrder(@Body request: OrderRequest): OrderResponse
 }
-

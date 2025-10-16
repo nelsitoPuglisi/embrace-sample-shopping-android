@@ -40,7 +40,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit =
             Retrofit.Builder()
-                    .baseUrl("https://example.com/")
+                    .baseUrl("https://dash-api.embrace.io/")
                     .client(okHttpClient)
                     .addConverterFactory(MoshiConverterFactory.create(moshi))
                     .build()

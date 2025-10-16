@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.embrace.shoppingcart.network.ApiService
+import io.embrace.shoppingcart.network.HybridApiService
 import io.embrace.shoppingcart.BuildConfig
 import javax.inject.Singleton
 
@@ -16,7 +17,10 @@ object ApiBindingModule {
     fun provideApiService(
         @RealApi real: ApiService,
         @MockApi mock: ApiService
-    ): ApiService = if (BuildConfig.USE_MOCK) mock else real
+    ): ApiService = if (BuildConfig.USE_MOCK) {
+        mock
+    } else {
+        HybridApiService(real, mock)
+    }
 }
-
 
