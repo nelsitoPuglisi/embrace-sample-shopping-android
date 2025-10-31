@@ -74,6 +74,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                             isAddingToCart = state.addingProductIds.contains(product.id),
                             modifier = Modifier.fillMaxWidth().padding(8.dp)
                         )
+                        //ANR Here
                     }
                 }
             } else {

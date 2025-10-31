@@ -122,7 +122,7 @@ fun PaymentStep(viewModel: CheckoutViewModel = hiltViewModel(), onNext: () -> Un
                         endTimeMs = now,
                         errorCode = ErrorCode.FAILURE
                     )
-                    Embrace.getInstance().logError("Failed parsing payment_methods response from backend")
+                    Embrace.getInstance().logError("Rejected: too many requests")
                 }
                 else -> Embrace.getInstance().recordCompletedSpan(
                     name = "Loaded Payment Methods",
@@ -160,7 +160,7 @@ private fun failedRequestPaymentMethods(now: Long, durationMs: Long) {
             endTime = now,
             bytesSent = 0,
             bytesReceived = 0,
-            statusCode = 500
+            statusCode = 429
         )
     )
 }
